@@ -38,16 +38,16 @@ Use the Checkers settings screen to get links to process resutls with page check
 
 To install the use the Postscript plugin:
 
-1. Upload the `sound-shares` directory and content to the `/wp-content/plugins/` directory
+1. Upload the `checkers` directory and content to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
-3. Go to the Setting: Sound Shares options screen.
+3. Go to the Setting: Checkers options screen.
 
 ##  Screenshots ##
 
 ## Frequently Asked Questions ##
 
 ### How can I contribute to Checkers? ###
-Sound Shares is now on [GitHub](https://github.com/hearvox/checkers). Pull Requests welcome.
+Checkers is now on [GitHub](https://github.com/hearvox/checkers). Pull Requests welcome.
 
 ### How can I translate Postscript? ###
 This plugin is internationalized (default: English). Please contribute a translation in your language.
