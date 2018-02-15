@@ -1,15 +1,15 @@
 # Checkers #
-**Contributors:** [[hearvox](https://profiles.wordpress.org/hearvox)](https://profiles.wordpress.org/[hearvox](https://profiles.wordpress.org/hearvox))
-**Donate link:** https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3546QM2HAEKXW
-**Tags:** social, performance, accessibility
-**Author URI:** http://hearingvoices.com/
-**Plugin URI:** http://hearingvoices.com/tools/checkers/
-**GitHub Plugin URI:** https://github.com/hearvox/checkers
-**Requires at least:** 4.5
-**Tested up to:** 4.9.1
-**Stable tag:** 0.1.0
-**License:** GPLv2 or later
-**License URI:** http://www.gnu.org/licenses/gpl-2.0.html
+**Contributors:** [hearvox](https://profiles.wordpress.org/hearvox)  
+**Donate link:** https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3546QM2HAEKXW  
+**Tags:** social, performance, accessibility  
+**Author URI:** http://hearingvoices.com/  
+**Plugin URI:** http://hearingvoices.com/tools/checkers/  
+**GitHub Plugin URI:** https://github.com/hearvox/checkers  
+**Requires at least:** 4.0  
+**Tested up to:** 4.9.1  
+**Stable tag:** 0.1.0  
+**License:** GPLv2 or later  
+**License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
 Test your webpages with online page checkers, for performance accessibility, and social shares.
 
