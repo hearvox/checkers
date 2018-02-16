@@ -33,7 +33,7 @@ if ( defined( 'checkers_VERSION' ) ) {
  * @return  string  $links HTML links for Plugins screen.
  */
 function checkers_plugin_settings_link( $links ) {
-  $settings_link = '<a href="' . esc_url( admin_url( 'options-general.php?page=soundshares' ) ) . '">' . __( 'Settings', 'soundshares', 'checkers' ) . '</a>';
+  $settings_link = '<a href="' . esc_url( admin_url( 'options-general.php?page=checkers' ) ) . '">' . __( 'Settings', 'checkers' ) . '</a>';
   array_unshift( $links, $settings_link );
   return $links;
 }
@@ -45,7 +45,7 @@ add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'checkers_plug
  * CHECKERS_BASENAME     checkers/checkers.php
  * CHECKERS_DIR          /path/to/wp-content/plugins/checkers/
  * CHECKERS_DIR_BASENAME checkers/
- * CHECKERS_URI https://example.com/wp-content/plugins/sound-shares/
+ * CHECKERS_URI https://example.com/wp-content/plugins/checkers/
  * ------------------------------------------------------------------------ */
 define( 'CHECKERS_VERSION', '0.1.0' );
 define( 'CHECKERS_BASENAME', plugin_basename( __FILE__ ) );
@@ -73,7 +73,7 @@ function checkers_load_textdomain() {
 add_action( 'plugins_loaded', 'checkers_load_textdomain' );
 
 /**
- * Redirect upon plugin activation to Settings screen.
+ * Redirect to Settings screen upon plugin activation.
  *
  * @param  string $plugin Plugin basename (e.g., "my-plugin/my-plugin.php")
  * @return void
@@ -125,7 +125,7 @@ add_action('admin_menu', 'checkers_settings_menu');
 function checkers_settings_display() {
     ?>
     <div class="wrap">
-        <h1>Checkers: <?php _e('Settings', 'soundshares', 'checkers' ); ?></h1>
+        <h1>Checkers: <?php _e('Links', 'checkers' ); ?></h1>
 
         <!-- Modal based on find_posts_div() -->
         <form name="plugin_form" id="plugin_form" method="post" action="">
