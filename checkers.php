@@ -280,7 +280,7 @@ function checkers_page_services() {
 function checkers_site_services() {
     global $checkers_sites;
     $host = parse_url( get_site_url(), PHP_URL_HOST);
-    $links = '<ol>';
+    $links = '<ol style="background-color: #F7F7F7; max-width: 40rem;">';
     foreach ( $checkers_sites as $site ) {
         $links .= '<li class="dashicons-before dashicons-' . esc_attr( $site[3] ) . '">';
         $links .= '<a href="' . esc_url( $site[1] . $host ) . '" target="_blank">';

@@ -1,9 +1,7 @@
 var checks, services, check_url, check_links, i;
 
 window.onload = function() {
-    alert( checkers_vars.checkers_links[0][1] );
-
-    /* Indicate a change to user (needed when submitting a 2nd URL). */
+    /* Indicate a change to user (helpful when submitting a 2nd URL). */
     document.getElementById( 'checkers-url' ).addEventListener( 'focus', function(){
         document.getElementById( 'checkers-results' ).style.backgroundColor = '#fffff3';
     });
@@ -28,9 +26,9 @@ window.onload = function() {
             c_pages = checkers_vars.checkers_pages;
             for ( i = 0; i < c_pages.length; i++ ) { // Array of checker data.
                 // Some checkers needed encoded URL.
-                check_url = ( c_pages[i][2] ) ? encodeURIComponent( check_url ) : check_url;
+                check_page_url = ( c_pages[i][2] ) ? encodeURIComponent( check_url ) : check_url;
                 // Build HTML list of links.
-                check_links += '<li class="dashicons-before dashicons-' + c_pages[i][3] + '"><a href="' + c_pages[i][1] + check_url + '" target="_blank">' + c_pages[i][0] + '</a></li>';
+                check_links += '<li class="dashicons-before dashicons-' + c_pages[i][3] + '"><a href="' + c_pages[i][1] + check_page_url + '" target="_blank">' + c_pages[i][0] + '</a></li>';
             }
             check_links += '</ol><hr>';
             check_links += '<p>' + checkers_vars.checkers_p_mid + '</p>';
