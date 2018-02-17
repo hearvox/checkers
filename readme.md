@@ -42,7 +42,12 @@ To install the use the Postscript plugin:
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Go to the Setting: Checkers options screen.
 
-##  Screenshots ##
+## Screenshots ##
+
+1. Enter an URL to check a webpage.
+2. Or search your posts and pages.
+3. Submit the URL for links to results at webpage-checking services.
+4. You also get links to results at website-checking services.
 
 ## Frequently Asked Questions ##
 

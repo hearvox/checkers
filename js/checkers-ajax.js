@@ -50,6 +50,21 @@ window.onload = function() {
     });
 };
 
+/**
+ * Check for valid URL (allows protocol-relative).
+ *
+ * Copyright (c) 2010-2013 Diego Perini, MIT licensed
+ * @see https://gist.github.com/dperini/729294
+ * @see https://mathiasbynens.be/demo/url-regex
+ * @see https://github.com/jquery-validation/jquery-validation/
+ *
+ * @param  string  URL
+ * @return boolean True if passed valid URL, else false.
+ */
+function checkers_validate_url( url ) {
+    return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test( url );
+}
+
 /*
 https://www.rjionline.org/stories/true-or-false-politifact-pols-and-pundits
 http://current.org/2018/02/how-to-make-sure-your-website-works-for-all-users/

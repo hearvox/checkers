@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Checkers 0.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/checkers\n"
-"POT-Creation-Date: 2018-02-15 22:07:58+00:00\n"
+"POT-Creation-Date: 2018-02-17 01:00:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,11 +13,11 @@ msgstr ""
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Generator: grunt-wp-i18n1.0.1\n"
 
-#: checkers.php:36 checkers.php:127
+#: checkers.php:54
 msgid "Settings"
 msgstr ""
 
-#: checkers.php:107
+#: checkers.php:143
 msgid "Checkers: Settings"
 msgstr ""
 
@@ -25,50 +25,75 @@ msgstr ""
 msgid "Checkers"
 msgstr ""
 
-#: checkers.php:134
+#: checkers.php:164
+msgid "Links"
+msgstr ""
+
+#: checkers.php:171
 msgid "Select a post"
 msgstr ""
 
-#: checkers.php:135
+#: checkers.php:172
 msgid "Close media attachment panel"
 msgstr ""
 
-#: checkers.php:144 checkers.php:147
+#: checkers.php:181 checkers.php:184
 msgid "Search"
 msgstr ""
 
-#: checkers.php:153
+#: checkers.php:190
 msgid "Select"
 msgstr ""
 
-#: checkers.php:159
+#: checkers.php:195
+msgid "Get results from online webpage and website checkers."
+msgstr ""
+
+#: checkers.php:196
+msgid "Page checkers"
+msgstr ""
+
+#: checkers.php:197
 msgid ""
-" Check a webpage for <span class=\"dashicons-before "
+"Check a webpage for <span class=\"dashicons-before "
 "dashicons-performance\">performance</span>, <span class=\"dashicons-before "
 "dashicons-universal-access-alt\">accessibility</span>, and <span "
 "class=\"dashicons-before dashicons-share\">social shares</span>."
 msgstr ""
 
-#: checkers.php:194
-msgid "Submit an URL to get resutls from these online webpage checking services:"
+#: checkers.php:205
+msgid "Submit an URL to get results from these online webpage checking services:"
 msgstr ""
 
-#: checkers.php:195
-msgid "These links open a new browser window with your results from:"
-msgstr ""
-
-#: checkers.php:196
-msgid ""
-"The above links start processing your results. The services below require "
-"entering an URL at their site. Your URL is in your clipboard, ready to "
-"paste into their field."
-msgstr ""
-
-#: checkers.php:197
+#: checkers.php:208
 msgid "* Service limits the number of daily checks."
 msgstr ""
 
-#: checkers.php:198
+#: checkers.php:211
+msgid "Site checkers"
+msgstr ""
+
+#: checkers.php:212
+msgid ""
+" Check your website for <span class=\"dashicons-before "
+"dashicons-chart-line\">statistics</span>, <span class=\"dashicons-before "
+"dashicons-lock\">security</span>, and <span class=\"dashicons-before "
+"dashicons-editor-code\">technologies</span>."
+msgstr ""
+
+#: checkers.php:242
+msgid ""
+"These links open a new browser window which starts processing your results "
+"from:"
+msgstr ""
+
+#: checkers.php:243
+msgid ""
+"These services require you enter an URL at their site. Your URL is now in "
+"your clipboard, ready to paste into their field."
+msgstr ""
+
+#: checkers.php:244
 msgid "Enter a valid URL."
 msgstr ""
 
