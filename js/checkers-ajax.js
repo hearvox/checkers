@@ -2,66 +2,79 @@ var checks, services, check_url, check_links, i;
 
 window.onload = function() {
     /* Indicate a change to user (helpful when submitting a 2nd URL). */
-    document.getElementById( 'checkers-url' ).addEventListener( 'focus', function(){
+    document.getElementById( 'checkers-input-url' ).addEventListener( 'focus', function(){
         document.getElementById( 'checkers-results' ).style.backgroundColor = '#fffff3';
     });
 
-    /* Process form submission */
-    document.getElementById( 'checkers-form' ).addEventListener( 'submit', function( event ){
-        event.preventDefault();
+    document.getElementById( 'checkers-input-url' ).select();
+    // alert( checkers_url.value );
+    // checkers_url.select();
+    document.execCommand( 'Copy' );
+    // checkers_url.blur(); // Unfocus selection.
+    document.getElementById( 'checkers-input-url' ).blur();
+    alert( ClipboardEvent.clipboardData );
 
-        check_links = '';
-        let check_url_input = document.getElementById( 'checkers-url' ); // Get form input.
 
-        if ( check_url_input && check_url_input.value ) { // Input field has value.
-            check_url = check_url_input.value;
 
-            if ( ! checkers_validate_url( check_url ) ) {
-                prompt( 'Unsafe URL: ' + check_url );
-            }
 
-            // Select URL and copy into clipboard.
-            check_url_input.select();
-            document.execCommand( 'Copy' );
-            check_url_input.blur(); // Unfocus selection.
+    // /* Process form submission */
+    // document.getElementById( 'checkers-form' ).addEventListener( 'submit', function( event ){
+    //     event.preventDefault();
 
-            /* Processed page information, with list of links to page checkers. */
-            check_links += '<p>' + checkers_vars.checkers_p_top + '</p>';
-            check_links += '<ol>';
-            c_pages = checkers_vars.checkers_pages;
-            for ( i = 0; i < c_pages.length; i++ ) { // Array of checker data.
-                // Some checkers needed encoded URL.
-                check_page_url = ( c_pages[i][2] ) ? encodeURIComponent( check_url ) : check_url;
-                // Sanitize service name.
-                name_enc = encodeURI( c_pages[i][0] ); // Leaves ":".
-                name     = name_enc.replace( /%20/g, ' ' ); // Restore spaces.
-                // Build HTML list of links.
-                check_links += '<li class="dashicons-before dashicons-' + encodeURIComponent( c_pages[i][3] ) + '">';
-                check_links += '<a href="' + c_pages[i][1] + check_page_url + '" target="_blank">' + name + '</a></li>';
-            }
-            check_links += '</ol><hr>';
-            check_links += '<p>' + checkers_vars.checkers_p_mid + '</p>';
-            check_links += '<ol>';
+    //     check_links = '';
+    //     let check_url_input = document.getElementById( 'checkers-url' ); // Get form input.
 
-            c_links = checkers_vars.checkers_links;
-            // name     = name_enc.replace( '%20', ' ' ); // Restore spaces.
-            for ( i = 0; i < c_links.length; i++ ) { // Array of checker data.
-                // Sanitize service name.
-                name_enc = encodeURI( c_pages[i][0] ); // Leaves ":".
-                name     = name_enc.replace( /%20/g, ' ' ); // Restore spaces.
-                check_links += '<li class="dashicons-before dashicons-' + encodeURIComponent( c_links[i][3] ) + '">';
-                check_links += '<a href="' + c_links[i][1] + '" target="_blank">' + name + '</a></li>';
-            }
-            check_links += '</ol>';
+    //     if ( check_url_input && check_url_input.value ) { // Input field has value.
+    //         check_url = check_url_input.value;
 
-        } else { // Input field empty.
-            check_links = '<p class="description">' + checkers_vars.checkers_else + '</p>';
-        }
+    //         if ( ! checkers_validate_url( check_url ) ) {
+    //             prompt( 'Unsafe URL: ' + check_url );
+    //         }
 
-    // Print list.
-    document.getElementById( 'checkers-results' ).innerHTML = check_links;
-    document.getElementById( 'checkers-results' ).style.backgroundColor = '#F7F7F7';
-    });
+    //         // Select URL and copy into clipboard.
+    //         check_url_input.select();
+    //         document.execCommand( 'Copy' );
+    //         check_url_input.blur(); // Unfocus selection.
+
+    //         /* Processed page information, with list of links to page checkers. */
+    //         check_links += '<p>' + checkers_vars.checkers_p_top + '</p>';
+    //         check_links += '<ol>';
+    //         c_pages = checkers_vars.checkers_pages;
+    //         for ( i = 0; i < c_pages.length; i++ ) { // Array of checker data.
+    //             // Some checkers needed encoded URL.
+    //             check_page_url = ( c_pages[i][2] ) ? encodeURIComponent( check_url ) : check_url;
+    //             // Sanitize service name.
+    //             name_enc = encodeURI( c_pages[i][0] ); // Leaves ":".
+    //             name     = name_enc.replace( /%20/g, ' ' ); // Restore spaces.
+    //             // Build HTML list of links.
+    //             check_links += '<li class="dashicons-before dashicons-' + encodeURIComponent( c_pages[i][3] ) + '">';
+    //             check_links += '<a href="' + c_pages[i][1] + check_page_url + '" target="_blank">' + name + '</a></li>';
+    //         }
+    //         check_links += '</ol><hr>';
+    //         check_links += '<p>' + checkers_vars.checkers_p_mid + '</p>';
+    //         check_links += '<ol>';
+
+    //         c_links = checkers_vars.checkers_links;
+    //         // name     = name_enc.replace( '%20', ' ' ); // Restore spaces.
+    //         for ( i = 0; i < c_links.length; i++ ) { // Array of checker data.
+    //             // Sanitize service name.
+    //             name_enc = encodeURI( c_pages[i][0] ); // Leaves ":".
+    //             name     = name_enc.replace( /%20/g, ' ' ); // Restore spaces.
+    //             check_links += '<li class="dashicons-before dashicons-' + encodeURIComponent( c_links[i][3] ) + '">';
+    //             check_links += '<a href="' + c_links[i][1] + '" target="_blank">' + name + '</a></li>';
+    //         }
+    //         check_links += '</ol>';
+
+    //     } else { // Input field empty.
+    //         check_links = '<p class="description">' + checkers_vars.checkers_else + '</p>';
+    //     }
+
+    // // Print list.
+    // document.getElementById( 'checkers-results' ).innerHTML = check_links;
+    // document.getElementById( 'checkers-results' ).style.backgroundColor = '#F7F7F7';
+    // });
+
+
 };
 
 
