@@ -9,16 +9,25 @@ window.onload = function() {
     /* Process form submission */
     document.getElementById( 'checkers-form' ).addEventListener( 'submit', function( event ){
         event.preventDefault();
+
         check_links = '';
         let check_url_input = document.getElementById( 'checkers-url' ); // Get form input.
 
         if ( check_url_input && check_url_input.value ) { // Input field has value.
             check_url = check_url_input.value;
 
+            if ( ! checkers_validate_url( check_url ) ) {
+                prompt( 'Unsafe URL: ' + check_url );
+            }
+
+            mshot_img = document.getElementById( 'mshot' );
+            mshot_src = 'https://s.wordpress.com/mshots/v1/' + encodeURIComponent( check_url ) + '?w=256';
+            mshot_img.src = mshot_src;
+
             // Select URL and copy into clipboard.
             check_url_input.select();
             document.execCommand( 'Copy' );
-            check_url_input.blur(); // Remove select.
+            check_url_input.blur(); // Unfocus selection.
 
             /* Processed page information, with list of links to page checkers. */
             check_links += '<p>' + checkers_vars.checkers_p_top + '</p>';
@@ -27,16 +36,25 @@ window.onload = function() {
             for ( i = 0; i < c_pages.length; i++ ) { // Array of checker data.
                 // Some checkers needed encoded URL.
                 check_page_url = ( c_pages[i][2] ) ? encodeURIComponent( check_url ) : check_url;
+                // Sanitize service name.
+                name_enc = encodeURI( c_pages[i][0] ); // Leaves ":".
+                name     = name_enc.replace( /%20/g, ' ' ); // Restore spaces.
                 // Build HTML list of links.
-                check_links += '<li class="dashicons-before dashicons-' + c_pages[i][3] + '"><a href="' + c_pages[i][1] + check_page_url + '" target="_blank">' + c_pages[i][0] + '</a></li>';
+                check_links += '<li class="dashicons-before dashicons-' + encodeURIComponent( c_pages[i][3] ) + '">';
+                check_links += '<a href="' + c_pages[i][1] + check_page_url + '" target="_blank">' + name + '</a></li>';
             }
             check_links += '</ol><hr>';
             check_links += '<p>' + checkers_vars.checkers_p_mid + '</p>';
             check_links += '<ol>';
 
             c_links = checkers_vars.checkers_links;
+            // name     = name_enc.replace( '%20', ' ' ); // Restore spaces.
             for ( i = 0; i < c_links.length; i++ ) { // Array of checker data.
-                check_links += '<li class="dashicons-before dashicons-' + c_links[i][3] + '"><a href="' + c_links[i][1] + '" target="_blank">' + c_links[i][0] + '</a></li>';
+                // Sanitize service name.
+                name_enc = encodeURI( c_pages[i][0] ); // Leaves ":".
+                name     = name_enc.replace( /%20/g, ' ' ); // Restore spaces.
+                check_links += '<li class="dashicons-before dashicons-' + encodeURIComponent( c_links[i][3] ) + '">';
+                check_links += '<a href="' + c_links[i][1] + '" target="_blank">' + name + '</a></li>';
             }
             check_links += '</ol>';
 
@@ -49,6 +67,8 @@ window.onload = function() {
     document.getElementById( 'checkers-results' ).style.backgroundColor = '#F7F7F7';
     });
 };
+
+
 
 /**
  * Check for valid URL (allows protocol-relative).
@@ -133,5 +153,6 @@ https://gist.github.com/wp-kitten/c647cda5ddacc5b27f1db20a3a476ae2
 
 https://seositecheckup.com/tools
 mb/highness doubt curtain
+
 
 */

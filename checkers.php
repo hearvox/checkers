@@ -211,6 +211,9 @@ function checkers_settings_display() {
         <h2 id="checkers-site"><?php _e('Site checkers', 'checkers' ); ?></h2>
             <p><?php _e( ' Check your website for <span class="dashicons-before dashicons-chart-line">statistics</span>, <span class="dashicons-before dashicons-lock">security</span>, and <span class="dashicons-before dashicons-editor-code">technologies</span>.', 'checkers' ); ?></p>
         <?php echo checkers_site_services(); ?>
+        <script type="text/javascript">
+
+        </script>
 
     </div><!-- .wrap -->
     <?php
