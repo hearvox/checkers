@@ -3,18 +3,22 @@ var checks, services, check_url, check_links, i;
 window.onload = function() {
     /* Indicate a change to user (helpful when submitting a 2nd URL). */
     document.getElementById( 'checkers-input-url' ).addEventListener( 'focus', function(){
-        document.getElementById( 'checkers-results' ).style.backgroundColor = '#fffff3';
+        // document.getElementById( 'checkers-results' ).style.backgroundColor = '#fffff3';
     });
 
-    document.getElementById( 'checkers-input-url' ).select();
-    // alert( checkers_url.value );
-    // checkers_url.select();
-    document.execCommand( 'Copy' );
-    // checkers_url.blur(); // Unfocus selection.
-    document.getElementById( 'checkers-input-url' ).blur();
-    alert( ClipboardEvent.clipboardData );
+    if ( document.getElementById( 'checkers-more-button' ) ) {
+        document.getElementById( 'checkers-more-button' ).addEventListener( 'click', function( event ) {
+            event.preventDefault();
+            let input_url = document.getElementById( 'checkers-input-url' ); // Get form input.
+            //Select URL and copy into clipboard.
+            input_url.select();
+            document.execCommand( 'Copy' );
+            input_url.blur(); // Unfocus selection.
 
-
+            document.getElementById( 'checkers-more-links' ).style.display = 'block';
+            document.getElementById( 'checkers-more-button' ).style.display = 'none';
+        });
+    }
 
 
     // /* Process form submission */

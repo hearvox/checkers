@@ -229,9 +229,11 @@ function checkers_settings_display() {
         <p><?php _e( 'These links open a new browser window which starts processing your results from:', 'checkers' ); ?></p>
         <?php echo checkers_page_services_with_url( $url_to_check ); ?>
         <p class="description"><?php _e('* Service limits the number of daily checks.', 'checkers') ?></p>
+        <button id="checkers-more-button" class="button"><?php _e( 'More checkers&hellip;', 'checkers' ); ?></button></p>
+        <aside id="checkers-more-links" style="display: none;">
         <p><?php _e( 'These services require you enter an URL at their site. Your URL is now in your clipboard, ready to paste into their field.', 'checkers' ); ?></p>
         <?php echo checkers_page_services_links(); ?>
-
+        </aside>
         <?php } else { ?>
 
         <p><?php _e('Submit an URL to get results from these online webpage checking services:', 'checkers') ?></p>
@@ -241,13 +243,10 @@ function checkers_settings_display() {
         </figure>
         <hr>
 
+
         <h2 id="checkers-site"><?php _e('Site checkers', 'checkers' ); ?></h2>
         <p><?php _e( 'Check this website for <span class="dashicons-before dashicons-chart-line">statistics</span>, <span class="dashicons-before dashicons-lock">security</span>, and <span class="dashicons-before dashicons-editor-code">technologies</span>.', 'checkers' ); ?></p>
         <?php echo checkers_site_services(); ?>
-        <script type="text/javascript">
-
-        </script>
-
     </div><!-- .wrap -->
     <?php
 }
@@ -280,12 +279,7 @@ function checkers_load_admin_scripts( $hook ) {
         wp_enqueue_style( 'checkers-css', CHECKERS_URL . 'css/checkers.css', array(), $vers_css );
     	wp_localize_script('checkers-js', 'checkers_vars', array(
     			'checkers_nonce' => wp_create_nonce('checkers-nonce'),
-                'checkers_p_top' => __('These links open a new browser window which starts processing your results from:', 'checkers'),
-                'checkers_p_mid' => __('These services require you enter an URL at their site. Your URL is now in your clipboard, ready to paste into their field.', 'checkers'),
                 'checkers_else'  => __('Enter a valid URL.', 'checkers'),
-                'checkers_pages' => $checkers_pages,
-                'checkers_links' => $checkers_links,
-                'checkers_sites' => $checkers_sites,
     		)
     	);
     }
