@@ -24,8 +24,6 @@ if ( defined( 'checkers_VERSION' ) ) {
     return;
 }
 
-define( 'CHECKERS_VERSION', '0.1.0' );
-
 /**
  * Load the plugin text domain for translation.
  *
@@ -41,6 +39,18 @@ function checkers_load_textdomain() {
         );
 }
 add_action( 'plugins_loaded', 'checkers_load_textdomain' );
+
+/* ------------------------------------------------------------------------ *
+ * Constants: plugin version, name, and the path and URL to directory.
+ *
+ * CHECKERS_BASENAME checkers/checkers.php
+ * CHECKERS_DIR      /path/to/wp-content/plugins/checkers/
+ * CHECKERS_URL      https://example.com/wp-content/plugins/checkers/
+ * ------------------------------------------------------------------------ */
+define( 'CHECKERS_VERSION', '0.1.0' );
+define( 'CHECKERS_BASENAME', plugin_basename( __FILE__ ) );
+define( 'CHECKERS_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
+define( 'CHECKERS_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
 
 /**
  * Adds "Settings" link on Plugins screen (next to "Activate").
@@ -237,10 +247,15 @@ function checkers_load_admin_scripts( $hook ) {
         wp_enqueue_script('media');
         // wp_enqueue_script('wp-ajax-response');
 
-        // Used to process the page checkers form.
-        $file_path = plugin_dir_path( __FILE__ ) . 'js/checkers-ajax.js';
-    	wp_enqueue_script( 'checkers-ajax', plugin_dir_url( __FILE__ ) . 'js/checkers-ajax.js', array('jquery'), filemtime( $file_path ) );
-    	wp_localize_script('checkers-ajax', 'checkers_vars', array(
+        // Set files versions to file modification time (cache-buster).
+        $path_js  = CHECKERS_DIR . 'js/checkers-ajax.js';
+        $path_css = CHECKERS_DIR . 'css/checkers.css';
+        $vers_js = ( file_exists( $path_js ) ) ? filemtime( $path_js ) : get_bloginfo('version'); ;
+        $vers_css = ( file_exists( $path_css ) ) ? filemtime( $path_css ) : get_bloginfo('version'); ;
+
+    	wp_enqueue_script( 'checkers-js', CHECKERS_URL . 'js/checkers-ajax.js', array( 'jquery' ), $vers_js );
+        wp_enqueue_style( 'checkers-css', CHECKERS_URL . 'css/checkers.css', array(), $vers_css );
+    	wp_localize_script('checkers-js', 'checkers_vars', array(
     			'checkers_nonce' => wp_create_nonce('checkers-nonce'),
                 'checkers_p_top' => __('These links open a new browser window which starts processing your results from:', 'checkers'),
                 'checkers_p_mid' => __('These services require you enter an URL at their site. Your URL is now in your clipboard, ready to paste into their field.', 'checkers'),

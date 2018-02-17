@@ -20,10 +20,6 @@ window.onload = function() {
                 prompt( 'Unsafe URL: ' + check_url );
             }
 
-            mshot_img = document.getElementById( 'mshot' );
-            mshot_src = 'https://s.wordpress.com/mshots/v1/' + encodeURIComponent( check_url ) + '?w=256';
-            mshot_img.src = mshot_src;
-
             // Select URL and copy into clipboard.
             check_url_input.select();
             document.execCommand( 'Copy' );

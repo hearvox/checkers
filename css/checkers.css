@@ -1,0 +1,10 @@
+/* Add space above first occurance of class. */
+li.dashicons-before { margin-top: 1em; } /* Add for all. */
+
+#checkers-results li.dashicons-before:first-child,
+li.dashicons-chart-line ~ .dashicons-chart-line, /* Remove from all but first. */
+li.dashicons-editor-code ~ .dashicons-editor-code,
+li.dashicons-lock ~ .dashicons-lock,
+li.dashicons-performance ~ .dashicons-performance,
+li.dashicons-share ~ .dashicons-share,
+li.dashicons-universal-access-alt ~ .dashicons-universal-access-alt { margin-top: 0; }
