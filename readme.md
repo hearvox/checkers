@@ -44,10 +44,18 @@ To install the use the Postscript plugin:
 
 ## Screenshots ##
 
-1. Enter an URL to check a webpage.
-2. Or search your posts and pages.
-3. Submit the URL for links to results at webpage-checking services.
-4. You also get links to results at website-checking services.
+### 1. Enter an URL to check a webpage. ###
+![Enter an URL to check a webpage.](assets/screenshot-1.png)
+
+### 2. Or search your posts and pages. ###
+![Or search your posts and pages.](assets/screenshot-2.png)
+
+### 3. Submit the URL for links to results at webpage-checking services. ###
+![Submit the URL for links to results at webpage-checking services.](assets/screenshot-3.png)
+
+### 4. You also get links to results at website-checking services. ###
+![You also get links to results at website-checking services.](assets/screenshot-4.png)
+
 
 ## Frequently Asked Questions ##
 
