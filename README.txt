@@ -41,11 +41,11 @@ Other checking services included: Google's Mobile-Friendly and Structured Data t
 
 ==  Settings screen ==
 
-Use the Checkers settings screen to get links to process resutls with page checkers. Enter a URL manually or search your posts to get its URL.
+Submit an URL (or use the Search Posts screen) to get links to page and site checking services. Follow the links to begin processing your results.
 
 ==  Installation ==
 
-To install the use the Postscript plugin:
+To install and use the Checkers plugin:
 
 1. Upload the `checkers` directory and content to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
