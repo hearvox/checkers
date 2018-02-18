@@ -2,66 +2,100 @@ var checks, services, check_url, check_links, i;
 
 window.onload = function() {
     /* Indicate a change to user (helpful when submitting a 2nd URL). */
-    document.getElementById( 'checkers-url' ).addEventListener( 'focus', function(){
+    document.getElementById( 'checkers-input-url' ).addEventListener( 'focus', function() {
         document.getElementById( 'checkers-results' ).style.backgroundColor = '#fffff3';
     });
 
-    /* Process form submission */
-    document.getElementById( 'checkers-form' ).addEventListener( 'submit', function( event ){
-        event.preventDefault();
-
-        check_links = '';
-        let check_url_input = document.getElementById( 'checkers-url' ); // Get form input.
-
-        if ( check_url_input && check_url_input.value ) { // Input field has value.
-            check_url = check_url_input.value;
-
-            if ( ! checkers_validate_url( check_url ) ) {
-                prompt( 'Unsafe URL: ' + check_url );
-            }
-
-            // Select URL and copy into clipboard.
-            check_url_input.select();
-            document.execCommand( 'Copy' );
-            check_url_input.blur(); // Unfocus selection.
-
-            /* Processed page information, with list of links to page checkers. */
-            check_links += '<p>' + checkers_vars.checkers_p_top + '</p>';
-            check_links += '<ol>';
-            c_pages = checkers_vars.checkers_pages;
-            for ( i = 0; i < c_pages.length; i++ ) { // Array of checker data.
-                // Some checkers needed encoded URL.
-                check_page_url = ( c_pages[i][2] ) ? encodeURIComponent( check_url ) : check_url;
-                // Sanitize service name.
-                name_enc = encodeURI( c_pages[i][0] ); // Leaves ":".
-                name     = name_enc.replace( /%20/g, ' ' ); // Restore spaces.
-                // Build HTML list of links.
-                check_links += '<li class="dashicons-before dashicons-' + encodeURIComponent( c_pages[i][3] ) + '">';
-                check_links += '<a href="' + c_pages[i][1] + check_page_url + '" target="_blank">' + name + '</a></li>';
-            }
-            check_links += '</ol><hr>';
-            check_links += '<p>' + checkers_vars.checkers_p_mid + '</p>';
-            check_links += '<ol>';
-
-            c_links = checkers_vars.checkers_links;
-            // name     = name_enc.replace( '%20', ' ' ); // Restore spaces.
-            for ( i = 0; i < c_links.length; i++ ) { // Array of checker data.
-                // Sanitize service name.
-                name_enc = encodeURI( c_pages[i][0] ); // Leaves ":".
-                name     = name_enc.replace( /%20/g, ' ' ); // Restore spaces.
-                check_links += '<li class="dashicons-before dashicons-' + encodeURIComponent( c_links[i][3] ) + '">';
-                check_links += '<a href="' + c_links[i][1] + '" target="_blank">' + name + '</a></li>';
-            }
-            check_links += '</ol>';
-
-        } else { // Input field empty.
-            check_links = '<p class="description">' + checkers_vars.checkers_else + '</p>';
-        }
-
-    // Print list.
-    document.getElementById( 'checkers-results' ).innerHTML = check_links;
-    document.getElementById( 'checkers-results' ).style.backgroundColor = '#F7F7F7';
+    document.getElementById( 'find-posts-link' ).addEventListener( 'click', function() {
+        // document.getElementById( 'checkers-input-url' ).removeAttribute( "required" );
     });
+
+    document.getElementById( 'find-posts-close' ).addEventListener( 'click', function() {
+        // document.getElementById( 'checkers-input-url' ).setAttribute( "required", "required" );
+    });
+
+    document.getElementById( 'find-posts-submit' ).addEventListener( 'click', function() {
+        document.getElementById( 'checkers-input-url' ).removeAttribute( "required" );
+    });
+
+
+    if ( document.getElementById( 'checkers-more-button' ) ) {
+        document.getElementById( 'checkers-results' ).style.backgroundColor = '#F7F7F7';
+        document.getElementById( 'checkers-site-results' ).style.backgroundColor = '#F7F7F7';
+
+        document.getElementById( 'checkers-more-button' ).addEventListener( 'click', function( event ) {
+            event.preventDefault();
+            let input_url = document.getElementById( 'checkers-input-url' ); // Get form input.
+            //Select URL and copy into clipboard.
+            input_url.select();
+            document.execCommand( 'Copy' );
+            input_url.blur(); // Unfocus selection.
+            document.getElementById( 'checkers-results' ).style.backgroundColor = '#F7F7F7';
+            document.getElementById( 'checkers-more-links' ).style.display = 'block';
+            document.getElementById( 'checkers-more-button' ).style.display = 'none';
+            // <p class="description">' + checkers_vars.checkers_error + '</p>';
+        });
+    }
+
+
+    // /* Process form submission */
+    // document.getElementById( 'checkers-form' ).addEventListener( 'submit', function( event ){
+    //     event.preventDefault();
+
+    //     check_links = '';
+    //     let check_url_input = document.getElementById( 'checkers-url' ); // Get form input.
+
+    //     if ( check_url_input && check_url_input.value ) { // Input field has value.
+    //         check_url = check_url_input.value;
+
+    //         if ( ! checkers_validate_url( check_url ) ) {
+    //             prompt( 'Unsafe URL: ' + check_url );
+    //         }
+
+    //         // Select URL and copy into clipboard.
+    //         check_url_input.select();
+    //         document.execCommand( 'Copy' );
+    //         check_url_input.blur(); // Unfocus selection.
+
+    //         /* Processed page information, with list of links to page checkers. */
+    //         check_links += '<p>' + checkers_vars.checkers_p_top + '</p>';
+    //         check_links += '<ol>';
+    //         c_pages = checkers_vars.checkers_pages;
+    //         for ( i = 0; i < c_pages.length; i++ ) { // Array of checker data.
+    //             // Some checkers needed encoded URL.
+    //             check_page_url = ( c_pages[i][2] ) ? encodeURIComponent( check_url ) : check_url;
+    //             // Sanitize service name.
+    //             name_enc = encodeURI( c_pages[i][0] ); // Leaves ":".
+    //             name     = name_enc.replace( /%20/g, ' ' ); // Restore spaces.
+    //             // Build HTML list of links.
+    //             check_links += '<li class="dashicons-before dashicons-' + encodeURIComponent( c_pages[i][3] ) + '">';
+    //             check_links += '<a href="' + c_pages[i][1] + check_page_url + '" target="_blank">' + name + '</a></li>';
+    //         }
+    //         check_links += '</ol><hr>';
+    //         check_links += '<p>' + checkers_vars.checkers_p_mid + '</p>';
+    //         check_links += '<ol>';
+
+    //         c_links = checkers_vars.checkers_links;
+    //         // name     = name_enc.replace( '%20', ' ' ); // Restore spaces.
+    //         for ( i = 0; i < c_links.length; i++ ) { // Array of checker data.
+    //             // Sanitize service name.
+    //             name_enc = encodeURI( c_pages[i][0] ); // Leaves ":".
+    //             name     = name_enc.replace( /%20/g, ' ' ); // Restore spaces.
+    //             check_links += '<li class="dashicons-before dashicons-' + encodeURIComponent( c_links[i][3] ) + '">';
+    //             check_links += '<a href="' + c_links[i][1] + '" target="_blank">' + name + '</a></li>';
+    //         }
+    //         check_links += '</ol>';
+
+    //     } else { // Input field empty.
+    //         check_links = '<p class="description">' + checkers_vars.checkers_else + '</p>';
+    //     }
+
+    // // Print list.
+    // document.getElementById( 'checkers-results' ).innerHTML = check_links;
+    // document.getElementById( 'checkers-results' ).style.backgroundColor = '#F7F7F7';
+    // });
+
+
 };
 
 

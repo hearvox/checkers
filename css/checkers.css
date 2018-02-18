@@ -8,3 +8,10 @@ li.dashicons-lock ~ .dashicons-lock,
 li.dashicons-performance ~ .dashicons-performance,
 li.dashicons-share ~ .dashicons-share,
 li.dashicons-universal-access-alt ~ .dashicons-universal-access-alt { margin-top: 0; }
+
+.checkers-results {
+    margin: 0;
+    max-width: 40rem;
+}
+
+#checkers-input-url { width: 40rem; }
