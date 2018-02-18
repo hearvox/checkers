@@ -3,7 +3,7 @@
 Plugin Name:       Checkers
 Plugin URI:        https://hearingvoices.com/tools/checkers
 Description:       Test your webpages with online page checkers, for performance accessibility, and social shares.
-Version:           0.1.0
+Version:           0.1.1
 Author:            Barrett Golding
 Author URI:        https://hearingvoices.com/bg/
 License:           GPL-2.0+
@@ -47,7 +47,7 @@ add_action( 'plugins_loaded', 'checkers_load_textdomain' );
  * CHECKERS_DIR      /path/to/wp-content/plugins/checkers/
  * CHECKERS_URL      https://example.com/wp-content/plugins/checkers/
  * ------------------------------------------------------------------------ */
-define( 'CHECKERS_VERSION', '0.1.0' );
+define( 'CHECKERS_VERSION', '0.1.1' );
 define( 'CHECKERS_BASENAME', plugin_basename( __FILE__ ) );
 define( 'CHECKERS_DIR', trailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'CHECKERS_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
