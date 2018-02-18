@@ -96,17 +96,18 @@ add_action( 'activated_plugin', 'checkers_activation_redirect' );
  * array({Service-name}, {Service-URL-prefix}, {encode?}, {dashicon})
  */
 $checkers_pages = array(
-      array('Google: Pagespeed Insights', 'https://developers.google.com/speed/pagespeed/insights/?url=', 1, 'performance'),
-      array('Google: Mobile-Friendly Test', 'https://search.google.com/test/mobile-friendly?url=', 1, 'performance'),
-      array('W3C: Markup Validation', 'https://validator.w3.org/checklink?hide_type=all&depth=&check=Check&uri=', 1, 'performance'),
-      array('Twitter: Search', 'https://twitter.com/search?src=typd&q=', 1, 'share'),
-      array('Facebook: Link Preview', 'https://developers.facebook.com/tools/debug/sharing/?q=', 1, 'share'),
-      array('Facebook: Shares (data)', 'https://graph.facebook.com/?id=', 0, 'share'),
-      array('LinkedIn: Shares (data)', 'https://www.linkedin.com/countserv/count/share?url=', 0, 'share'),
-      array('Moz: Open Site Explorer*', 'https://moz.com/researchtools/ose/links?filter=&source=external&target=page&group=0&page=1&sort=page_authority&anchor_id=&anchor_type=&anchor_text=&from_site=&site=', 1, 'share'),
-      array('WebAIM: WAVE Accessibility Tool', 'https://wave.webaim.org/report#/', 0, 'universal-access-alt'),
-      array('Toptal: Colorblind Web Page Filter', 'https://www.toptal.com/designers/colorfilter?process_type=deutan&orig_uri=', 0, 'universal-access-alt'),
-      array('Tenon: Accessibility Test*', 'https://tenon.io/testNow.php?url=', 0, 'universal-access-alt'),
+    array('Google: Pagespeed Insights', 'https://developers.google.com/speed/pagespeed/insights/?url=', 1, 'performance'),
+    array('Google: Mobile-Friendly Test', 'https://search.google.com/test/mobile-friendly?url=', 1, 'performance'),
+    array('W3C: Markup Validation', 'https://validator.w3.org/checklink?hide_type=all&depth=&check=Check&uri=', 1, 'performance'),
+    array('Twitter: Search', 'https://twitter.com/search?src=typd&q=', 1, 'share'),
+    array('Facebook: Link Preview', 'https://developers.facebook.com/tools/debug/sharing/?q=', 1, 'share'),
+    array('Facebook: Shares (data)', 'https://graph.facebook.com/?id=', 0, 'share'),
+    array('LinkedIn: Shares (data)', 'https://www.linkedin.com/countserv/count/share?url=', 0, 'share'),
+    array('Moz: Open Site Explorer*', 'https://moz.com/researchtools/ose/links?filter=&source=external&target=page&group=0&page=1&sort=page_authority&anchor_id=&anchor_type=&anchor_text=&from_site=&site=', 1, 'share'),
+    array('Internet Archive: Wayback Machine', 'https://web.archive.org/web/*/', 0, 'share'),
+    array('WebAIM: WAVE Accessibility Tool', 'https://wave.webaim.org/report#/', 0, 'universal-access-alt'),
+    array('Toptal: Colorblind Web Page Filter', 'https://www.toptal.com/designers/colorfilter?process_type=deutan&orig_uri=', 0, 'universal-access-alt'),
+    array('Tenon: Accessibility Test*', 'https://tenon.io/testNow.php?url=', 0, 'universal-access-alt'),
 );
 
 /*
@@ -215,12 +216,13 @@ function checkers_settings_display() {
                 </div>
             </div><!-- #find-posts -->
 
-            <p><?php _e( 'Check a webpage for <span class="dashicons-before dashicons-performance">performance</span>, <span class="dashicons-before dashicons-universal-access-alt">accessibility</span>, and <span class="dashicons-before dashicons-share">social shares</span>.', 'checkers' ); ?></p>
+            <p><?php _e( 'Check a webpage for <span class="dashicons-before dashicons-performance">performance</span>, <span class="dashicons-before dashicons-universal-access-alt">accessibility</span>, and <span class="dashicons-before dashicons-share">shares</span>.', 'checkers' ); ?></p>
 
-            <p><label for="url">Enter URL (or <a href="#checkers-url" onclick="findPosts.open( 'action','find_posts' ); return false;" id="find-posts-link" class="hide-if-no-js aria-button-if-js" aria-label="Open search-posts list form" role="button">Search Posts</a>):</label><br>
+            <p><label for="url"><?php _e('1. Enter URL (or ', 'checkers') ?><a href="#checkers-url" onclick="findPosts.open( 'action','find_posts' ); return false;" id="find-posts-link" class="hide-if-no-js aria-button-if-js" aria-label="Open search-posts list form" role="button"><?php _e('Search Posts', 'checkers') ?></a><?php _e('):', 'checkers') ?></label><br>
             <input type="url" required id="checkers-input-url" name="checkers_input_url" value="<?php echo esc_url( $url_to_check ); ?>" /></p>
 
-            <input type="submit" value="Submit URL" class="button button-primary" />
+
+            <p><?php _e('2.', 'checkers') ?> <input type="submit" value="<?php _e('Submit URL', 'checkers') ?>" class="button button-primary" />
         </form>
         <figure id="checkers-results" class="checkers-results checkers-page-results">
 
@@ -245,11 +247,10 @@ function checkers_settings_display() {
 
         <figure id="checkers-site-results" class="checkers-results">
             <h2 id="checkers-site"><?php _e('Site checkers', 'checkers' ); ?></h2>
-            <p><?php _e( 'Check this website for <span class="dashicons-before dashicons-chart-line">statistics</span>, <span class="dashicons-before dashicons-lock">security</span>, and <span class="dashicons-before dashicons-editor-code">technologies</span>.', 'checkers' ); ?></p>
+            <p><?php _e( '3. Check this website for <span class="dashicons-before dashicons-chart-line">statistics</span>, <span class="dashicons-before dashicons-lock">security</span>, and <span class="dashicons-before dashicons-editor-code">technologies</span>.', 'checkers' ); ?></p>
             <?php echo checkers_site_services(); ?>
         </figure>
 
-        <aside><?php print_r( $_POST ); ?></aside>
     </div><!-- .wrap -->
     <?php
 }
