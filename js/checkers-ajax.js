@@ -2,11 +2,27 @@ var checks, services, check_url, check_links, i;
 
 window.onload = function() {
     /* Indicate a change to user (helpful when submitting a 2nd URL). */
-    document.getElementById( 'checkers-input-url' ).addEventListener( 'focus', function(){
-        // document.getElementById( 'checkers-results' ).style.backgroundColor = '#fffff3';
+    document.getElementById( 'checkers-input-url' ).addEventListener( 'focus', function() {
+        document.getElementById( 'checkers-results' ).style.backgroundColor = '#fffff3';
     });
 
+    document.getElementById( 'find-posts-link' ).addEventListener( 'click', function() {
+        // document.getElementById( 'checkers-input-url' ).removeAttribute( "required" );
+    });
+
+    document.getElementById( 'find-posts-close' ).addEventListener( 'click', function() {
+        // document.getElementById( 'checkers-input-url' ).setAttribute( "required", "required" );
+    });
+
+    document.getElementById( 'find-posts-submit' ).addEventListener( 'click', function() {
+        document.getElementById( 'checkers-input-url' ).removeAttribute( "required" );
+    });
+
+
     if ( document.getElementById( 'checkers-more-button' ) ) {
+        document.getElementById( 'checkers-results' ).style.backgroundColor = '#F7F7F7';
+        document.getElementById( 'checkers-site-results' ).style.backgroundColor = '#F7F7F7';
+
         document.getElementById( 'checkers-more-button' ).addEventListener( 'click', function( event ) {
             event.preventDefault();
             let input_url = document.getElementById( 'checkers-input-url' ); // Get form input.
@@ -14,9 +30,10 @@ window.onload = function() {
             input_url.select();
             document.execCommand( 'Copy' );
             input_url.blur(); // Unfocus selection.
-
+            document.getElementById( 'checkers-results' ).style.backgroundColor = '#F7F7F7';
             document.getElementById( 'checkers-more-links' ).style.display = 'block';
             document.getElementById( 'checkers-more-button' ).style.display = 'none';
+            // <p class="description">' + checkers_vars.checkers_error + '</p>';
         });
     }
 

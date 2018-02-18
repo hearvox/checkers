@@ -99,7 +99,7 @@ $checkers_pages = array(
       array('Google: Pagespeed Insights', 'https://developers.google.com/speed/pagespeed/insights/?url=', 1, 'performance'),
       array('Google: Mobile-Friendly Test', 'https://search.google.com/test/mobile-friendly?url=', 1, 'performance'),
       array('W3C: Markup Validation', 'https://validator.w3.org/checklink?hide_type=all&depth=&check=Check&uri=', 1, 'performance'),
-      array('Twitter: Search (post URL)', 'https://twitter.com/search?src=typd&q=', 1, 'share'),
+      array('Twitter: Search', 'https://twitter.com/search?src=typd&q=', 1, 'share'),
       array('Facebook: Link Preview', 'https://developers.facebook.com/tools/debug/sharing/?q=', 1, 'share'),
       array('Facebook: Shares (data)', 'https://graph.facebook.com/?id=', 0, 'share'),
       array('LinkedIn: Shares (data)', 'https://www.linkedin.com/countserv/count/share?url=', 0, 'share'),
@@ -217,36 +217,39 @@ function checkers_settings_display() {
 
             <p><?php _e( 'Check a webpage for <span class="dashicons-before dashicons-performance">performance</span>, <span class="dashicons-before dashicons-universal-access-alt">accessibility</span>, and <span class="dashicons-before dashicons-share">social shares</span>.', 'checkers' ); ?></p>
 
-            <p><label for="url">Enter URL (or <a href="#checkers-url" onclick="findPosts.open( 'action','find_posts' ); return false;" class="hide-if-no-js aria-button-if-js" aria-label="Open search-posts list form" role="button">Search Posts</a>):</label><br>
-            <input type="url" id="checkers-input-url" name="checkers_input_url" value="<?php echo esc_url( $url_to_check ); ?>" style="width: 40rem;" /></p>
+            <p><label for="url">Enter URL (or <a href="#checkers-url" onclick="findPosts.open( 'action','find_posts' ); return false;" id="find-posts-link" class="hide-if-no-js aria-button-if-js" aria-label="Open search-posts list form" role="button">Search Posts</a>):</label><br>
+            <input type="url" required id="checkers-input-url" name="checkers_input_url" value="<?php echo esc_url( $url_to_check ); ?>" /></p>
 
             <input type="submit" value="Submit URL" class="button button-primary" />
         </form>
-        <figure id="checkers-results" style="margin: 0; max-width: 40rem;">
+        <figure id="checkers-results" class="checkers-results checkers-page-results">
 
         <?php if ( $url_to_check ) { // If webpage submitted via form. ?>
 
-        <p><?php _e( 'These links open a new browser window which starts processing your results from:', 'checkers' ); ?></p>
-        <?php echo checkers_page_services_with_url( $url_to_check ); ?>
-        <p class="description"><?php _e('* Service limits the number of daily checks.', 'checkers') ?></p>
-        <button id="checkers-more-button" class="button"><?php _e( 'More checkers&hellip;', 'checkers' ); ?></button></p>
-        <aside id="checkers-more-links" style="display: none;">
-        <p><?php _e( 'These services require you enter an URL at their site. Your URL is now in your clipboard, ready to paste into their field.', 'checkers' ); ?></p>
-        <?php echo checkers_page_services_links(); ?>
-        </aside>
-        <?php } else { ?>
+            <p><?php _e( 'These links open a new browser window which starts processing your results from:', 'checkers' ); ?></p>
+            <?php echo checkers_page_services_with_url( $url_to_check ); ?>
+            <p class="description"><?php _e('* Service limits the number of daily checks.', 'checkers') ?></p>
+            <button id="checkers-more-button" class="button"><?php _e( 'More checkers&hellip;', 'checkers' ); ?></button></p>
+            <aside id="checkers-more-links" style="display: none;">
+            <p><?php _e( 'These services require you enter an URL at their site. Your URL is now in your clipboard, ready to paste into their field.', 'checkers' ); ?></p>
+            <?php echo checkers_page_services_links(); ?>
+            </aside>
+            <?php } else { ?>
 
-        <p><?php _e('Submit an URL to get results from these online webpage checking services:', 'checkers') ?></p>
-        <?php echo checkers_page_services(); ?>
-        <?php } ?>
+            <p><?php _e('Submit an URL to get results from these online webpage checking services:', 'checkers') ?></p>
+            <?php echo checkers_page_services(); ?>
+            <?php } ?>
 
         </figure>
         <hr>
 
+        <figure id="checkers-site-results" class="checkers-results">
+            <h2 id="checkers-site"><?php _e('Site checkers', 'checkers' ); ?></h2>
+            <p><?php _e( 'Check this website for <span class="dashicons-before dashicons-chart-line">statistics</span>, <span class="dashicons-before dashicons-lock">security</span>, and <span class="dashicons-before dashicons-editor-code">technologies</span>.', 'checkers' ); ?></p>
+            <?php echo checkers_site_services(); ?>
+        </figure>
 
-        <h2 id="checkers-site"><?php _e('Site checkers', 'checkers' ); ?></h2>
-        <p><?php _e( 'Check this website for <span class="dashicons-before dashicons-chart-line">statistics</span>, <span class="dashicons-before dashicons-lock">security</span>, and <span class="dashicons-before dashicons-editor-code">technologies</span>.', 'checkers' ); ?></p>
-        <?php echo checkers_site_services(); ?>
+        <aside><?php print_r( $_POST ); ?></aside>
     </div><!-- .wrap -->
     <?php
 }
@@ -279,7 +282,7 @@ function checkers_load_admin_scripts( $hook ) {
         wp_enqueue_style( 'checkers-css', CHECKERS_URL . 'css/checkers.css', array(), $vers_css );
     	wp_localize_script('checkers-js', 'checkers_vars', array(
     			'checkers_nonce' => wp_create_nonce('checkers-nonce'),
-                'checkers_else'  => __('Enter a valid URL.', 'checkers'),
+                'checkers_error'  => __('Enter a valid URL.', 'checkers'),
     		)
     	);
     }
@@ -357,7 +360,7 @@ function checkers_page_services_links() {
 function checkers_site_services() {
     global $checkers_sites;
     $host = parse_url( get_site_url(), PHP_URL_HOST);
-    $links = '<ol style="background-color: #F7F7F7; max-width: 40rem;">';
+    $links = '<ol>';
     foreach ( $checkers_sites as $site ) {
         $links .= '<li class="dashicons-before dashicons-' . esc_attr( $site[3] ) . '">';
         $links .= '<a href="' . esc_url( $site[1] . $host ) . '" target="_blank">';
