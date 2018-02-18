@@ -101,7 +101,6 @@ $checkers_pages = array(
     array('Twitter: Search', 'https://twitter.com/search?src=typd&q=', 1, 'share'),
     array('Facebook: Link Preview', 'https://developers.facebook.com/tools/debug/sharing/?q=', 1, 'share'),
     array('Facebook: Shares (data)', 'https://graph.facebook.com/?id=', 0, 'share'),
-    array('LinkedIn: Shares (data)', 'https://www.linkedin.com/countserv/count/share?url=', 0, 'share'),
     array('WebAIM: WAVE Accessibility Tool', 'https://wave.webaim.org/report#/', 0, 'universal-access-alt'),
     array('Toptal: Colorblind Web Page Filter', 'https://www.toptal.com/designers/colorfilter?process_type=deutan&orig_uri=', 0, 'universal-access-alt'),
 );
@@ -258,7 +257,7 @@ function checkers_settings_display() {
 
         <figure id="checkers-site-results" class="checkers-results">
             <h2 id="checkers-site"><?php _e('Site checkers', 'checkers' ); ?></h2>
-            <p><?php _e( '3. Check this website for <span class="dashicons-before dashicons-chart-line">statistics</span>, <span class="dashicons-before dashicons-lock">security</span>, and <span class="dashicons-before dashicons-editor-code">technologies</span>.', 'checkers' ); ?></p>
+            <p><?php _e( 'Check this website for <span class="dashicons-before dashicons-chart-line">statistics</span>, <span class="dashicons-before dashicons-lock">security</span>, and <span class="dashicons-before dashicons-editor-code">technologies</span>.', 'checkers' ); ?></p>
             <?php echo checkers_list_site_results_links(); ?>
         </figure>
 

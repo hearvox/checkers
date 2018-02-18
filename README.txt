@@ -7,7 +7,7 @@ Plugin URI: http://hearingvoices.com/tools/checkers/
 GitHub Plugin URI: https://github.com/hearvox/checkers
 Requires at least: 4.0
 Tested up to: 4.9.1
-Stable tag: 0.1.0
+Stable tag: 0.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,20 +15,29 @@ Test your webpages with online page checkers, for performance accessibility, and
 
 == Description ==
 
-Submit an URL to get results from these online webpage checking services:
+Check your webpages' <span class="dashicons-before dashicons-performance">performance</span>, <span class="dashicons-before dashicons-universal-access-alt">accessibility</span>, and <span class="dashicons-before dashicons-share">shares</span> at:
 <ol>
-    <li class="dashicons-before dashicons-performance">Google: Pagespeed Insights</li>
-    <li class="dashicons-before dashicons-performance">Google: Mobile-Friendly Test</li>
-    <li class="dashicons-before dashicons-performance">W3C: Markup Validation</li>
-    <li class="dashicons-before dashicons-share">Twitter: Search (post URL)</li>
-    <li class="dashicons-before dashicons-share">Facebook: Link Preview</li>
-    <li class="dashicons-before dashicons-share">Facebook: Shares (data)</li>
-    <li class="dashicons-before dashicons-share">LinkedIn: Shares (data)</li>
-    <li class="dashicons-before dashicons-share">Moz: Open Site Explorer</li>
-    <li class="dashicons-before dashicons-universal-access-alt">WebAIM: WAVE Accessibility Tool</li>
-    <li class="dashicons-before dashicons-universal-access-alt">Toptal: Colorblind Web Page Filter</li>
-    <li class="dashicons-before dashicons-universal-access-alt">Tenon: Accessibility Test</li>
+<li class="dashicons-before dashicons-performance">Google: Pagespeed Insights</li>
+<li class="dashicons-before dashicons-performance">W3C: Markup Validation</li>
+<li class="dashicons-before dashicons-share">Twitter: Search</li>
+<li class="dashicons-before dashicons-share">Facebook: Link Preview</li>
+<li class="dashicons-before dashicons-share">Facebook: Shares (data)</li>
+<li class="dashicons-before dashicons-universal-access-alt">WebAIM: WAVE Accessibility Tool</li>
+<li class="dashicons-before dashicons-universal-access-alt">Toptal: Colorblind Web Page Filter</li>
 </ol>
+
+Check your website's <span class="dashicons-before dashicons-chart-line">statistics</span>, <span class="dashicons-before dashicons-lock">security</span>, and <span class="dashicons-before dashicons-editor-code">technologies</span> at:
+<ol>
+<li class="dashicons-before dashicons-chart-line">SimilarWeb</a></li>
+<li class="dashicons-before dashicons-chart-line">Alexa</a></li>
+<li class="dashicons-before dashicons-chart-line">Quantcast</a></li>
+<li class="dashicons-before dashicons-lock">Sucuri</a></li>
+<li class="dashicons-before dashicons-lock">SSL Labs</a></li>
+<li class="dashicons-before dashicons-editor-code">W3Techs</a></li>
+<li class="dashicons-before dashicons-editor-code">BuiltWith</a></li>
+</ol>
+
+Other checking services included: Google's Mobile-Friendly and Structured Data test, the Moz Open Site Explorer, LinkedIn and BuzzSumo sharing stats, Wayback Machine archives, and the Tenon Accessibility Test.
 
 ==  Settings screen ==
 
