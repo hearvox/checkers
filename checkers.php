@@ -97,16 +97,22 @@ add_action( 'activated_plugin', 'checkers_activation_redirect' );
  */
 $checkers_pages = array(
     array('Google: Pagespeed Insights', 'https://developers.google.com/speed/pagespeed/insights/?url=', 1, 'performance'),
-    array('Google: Mobile-Friendly Test', 'https://search.google.com/test/mobile-friendly?url=', 1, 'performance'),
     array('W3C: Markup Validation', 'https://validator.w3.org/checklink?hide_type=all&depth=&check=Check&uri=', 1, 'performance'),
     array('Twitter: Search', 'https://twitter.com/search?src=typd&q=', 1, 'share'),
     array('Facebook: Link Preview', 'https://developers.facebook.com/tools/debug/sharing/?q=', 1, 'share'),
     array('Facebook: Shares (data)', 'https://graph.facebook.com/?id=', 0, 'share'),
     array('LinkedIn: Shares (data)', 'https://www.linkedin.com/countserv/count/share?url=', 0, 'share'),
-    array('Moz: Open Site Explorer*', 'https://moz.com/researchtools/ose/links?filter=&source=external&target=page&group=0&page=1&sort=page_authority&anchor_id=&anchor_type=&anchor_text=&from_site=&site=', 1, 'share'),
-    array('Internet Archive: Wayback Machine', 'https://web.archive.org/web/*/', 0, 'share'),
     array('WebAIM: WAVE Accessibility Tool', 'https://wave.webaim.org/report#/', 0, 'universal-access-alt'),
     array('Toptal: Colorblind Web Page Filter', 'https://www.toptal.com/designers/colorfilter?process_type=deutan&orig_uri=', 0, 'universal-access-alt'),
+);
+
+$checkers_more = array(
+    array('Google: Mobile-Friendly Test', 'https://search.google.com/test/mobile-friendly?url=', 1, 'performance'),
+    array('Google: Structured Data Test', 'https://search.google.com/structured-data/testing-tool/u/0/#url=', 1, 'performance'),
+    array('Moz: Open Site Explorer*', 'https://moz.com/researchtools/ose/links?filter=&source=external&target=page&group=0&page=1&sort=page_authority&anchor_id=&anchor_type=&anchor_text=&from_site=&site=', 1, 'share'),
+    array('LinkedIn: Shares (data)', 'https://www.linkedin.com/countserv/count/share?url=', 0, 'share'),
+    array('BuzzSumo: Shared', 'https://app.buzzsumo.com/research/most-shared?type=articles&result_type=total&num_days=365&general_article&infographic&video&how_to_article&list&what_post&why_post&page=1&q=', 1, 'share'),
+    array('Internet Archive: Wayback Machine', 'https://web.archive.org/web/*/', 0, 'share'),
     array('Tenon: Accessibility Test*', 'https://tenon.io/testNow.php?url=', 0, 'universal-access-alt'),
 );
 
@@ -181,7 +187,7 @@ function checkers_settings_display() {
 
     ?>
     <div class="wrap">
-        <h1>Checkers: <?php _e('Links', 'checkers' ); ?></h1>
+        <h1>Checkers: <?php _e('Links to Results', 'checkers' ); ?></h1>
         <p><?php _e( 'Get results from online webpage and website checkers.', 'checkers' ); ?></p>
 
 
@@ -229,17 +235,22 @@ function checkers_settings_display() {
         <?php if ( $url_to_check ) { // If webpage submitted via form. ?>
 
             <p><?php _e( 'These links open a new browser window which starts processing your results from:', 'checkers' ); ?></p>
-            <?php echo checkers_page_services_with_url( $url_to_check ); ?>
-            <p class="description"><?php _e('* Service limits the number of daily checks.', 'checkers') ?></p>
+            <?php echo checkers_list_page_results_links( $url_to_check ); ?>
             <button id="checkers-more-button" class="button"><?php _e( 'More checkers&hellip;', 'checkers' ); ?></button></p>
+
+            <!-- Hidden by default; displayed by button click. -->
             <aside id="checkers-more-links" style="display: none;">
-            <p><?php _e( 'These services require you enter an URL at their site. Your URL is now in your clipboard, ready to paste into their field.', 'checkers' ); ?></p>
-            <?php echo checkers_page_services_links(); ?>
-            </aside>
+            <p><?php _e( 'More results links:', 'checkers' ); ?></p>
+            <?php echo checkers_list_more_results_links( $url_to_check ); ?>
+            <p><?php _e( 'These services require you enter an URL at their site. Your URL is now in your clipboard, ready to paste into their field:', 'checkers' ); ?></p>
+            <?php echo checkers_list_page_services_links(); ?>
+            <p class="description"><?php _e('* Service limits the number of free daily checks.', 'checkers') ?></p>
+            </aside><!-- #checkers-more-links -->
+
             <?php } else { ?>
 
             <p><?php _e('Submit an URL to get results from these online webpage checking services:', 'checkers') ?></p>
-            <?php echo checkers_page_services(); ?>
+            <?php echo checkers_list_page_services(); ?>
             <?php } ?>
 
         </figure>
@@ -248,7 +259,7 @@ function checkers_settings_display() {
         <figure id="checkers-site-results" class="checkers-results">
             <h2 id="checkers-site"><?php _e('Site checkers', 'checkers' ); ?></h2>
             <p><?php _e( '3. Check this website for <span class="dashicons-before dashicons-chart-line">statistics</span>, <span class="dashicons-before dashicons-lock">security</span>, and <span class="dashicons-before dashicons-editor-code">technologies</span>.', 'checkers' ); ?></p>
-            <?php echo checkers_site_services(); ?>
+            <?php echo checkers_list_site_results_links(); ?>
         </figure>
 
     </div><!-- .wrap -->
@@ -291,13 +302,13 @@ function checkers_load_admin_scripts( $hook ) {
 add_action('admin_enqueue_scripts', 'checkers_load_admin_scripts');
 
 /**
- * Build HTML list of page-checking services.
+ * Build HTML list of page-checking services (without links).
  *
  * @since   0.1.0
  *
  * @return string $links HTML ordered list.
  */
-function checkers_page_services() {
+function checkers_list_page_services() {
     global $checkers_pages;
     $links = '<ol>';
     foreach ( $checkers_pages as $site ) {
@@ -310,13 +321,15 @@ function checkers_page_services() {
 }
 
 /**
- * Build HTML list of page-checking services with user-entered URL.
+ * Build HTML list of page-checking service links with user-entered URL in query.
+ *
+ * Following the link opens a new window and starts processing results.
  *
  * @since   0.1.0
  *
  * @return string $links HTML ordered list.
  */
-function checkers_page_services_with_url( $url = '' ) {
+function checkers_list_page_results_links( $url = '' ) {
     global $checkers_pages;
     $links = '<ol>';
     foreach ( $checkers_pages as $site ) {
@@ -332,13 +345,39 @@ function checkers_page_services_with_url( $url = '' ) {
 }
 
 /**
- * Build HTML list of page-checking services with user-entered URL.
+ * Build HTML list of page-checking service links with user-entered URL in query.
+ *
+ * Following the link opens a new window and starts processing results.
  *
  * @since   0.1.0
  *
  * @return string $links HTML ordered list.
  */
-function checkers_page_services_links() {
+function checkers_list_more_results_links( $url = '' ) {
+    global $checkers_more;
+    $links = '<ol>';
+    foreach ( $checkers_more as $site ) {
+        // Some checkers needed encoded URL.
+        $url_to_check = ( $site[2] ) ? urlencode( $url ) : $url;
+        $links .= '<li class="dashicons-before dashicons-' . esc_attr( $site[3] ) . '">';
+        $links .= '<a href="' . esc_url( $site[1] . $url_to_check ) . '" target="_blank">';
+        $links .= esc_html( $site[0]) . '</a></li>';
+    }
+    $links .= '</ol>';
+
+    return $links;
+}
+
+/**
+ * Build HTML list of page-checking service links.
+ *
+ * Following the link does not process results (until user enters an URL).
+ *
+ * @since   0.1.0
+ *
+ * @return string $links HTML ordered list.
+ */
+function checkers_list_page_services_links() {
     global $checkers_links;
     $links = '<ol>';
     foreach ( $checkers_links as $site ) {
@@ -352,13 +391,15 @@ function checkers_page_services_links() {
 }
 
 /**
- * Build HTML list of site-checking service links.
+ * Build HTML list of site-checking service links with site domain name in query.
+ *
+ * Following the link opens a new window and starts processing results.
  *
  * @since   0.1.0
  *
  * @return string $links HTML ordered list.
  */
-function checkers_site_services() {
+function checkers_list_site_results_links() {
     global $checkers_sites;
     $host = parse_url( get_site_url(), PHP_URL_HOST);
     $links = '<ol>';
