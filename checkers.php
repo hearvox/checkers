@@ -192,34 +192,7 @@ function checkers_settings_display() {
 
         <form name="checkers-posts-form" id="checkers-posts-form" method="post" action="">
             <?php wp_nonce_field('checkers_nonce'); ?>
-
-            <!-- Modal based on find_posts_div() -->
-            <div id="find-posts" class="find-box" style="display: none;">
-                <div id="find-posts-head" class="find-box-head">
-                    <?php _e( 'Select a post', 'checkers' ); ?>
-                    <button type="button" id="find-posts-close"><span class="screen-reader-text"><?php _e( 'Close media attachment panel', 'checkers' ); ?></span></button>
-                </div>
-                <div class="find-box-inside">
-                    <div class="find-box-search">
-                        <?php // if ( $found_action ) { ?>
-                            <input type="hidden" name="found_action" value="<?php // echo esc_attr($found_action); ?>" />
-                        <?php // } ?>
-                        <input type="hidden" name="affected" id="affected" value="" />
-                        <?php wp_nonce_field( 'find-posts', '_ajax_nonce', false ); ?>
-                        <label class="screen-reader-text" for="find-posts-input"><?php _e( 'Search', 'checkers' ); ?></label>
-                        <input type="text" id="find-posts-input" name="ps" value="" />
-                        <span class="spinner"></span>
-                        <input type="button" id="find-posts-search" value="<?php esc_attr_e( 'Search', 'checkers' ); ?>" class="button" />
-                        <div class="clear"></div>
-                    </div>
-                    <div id="find-posts-response"></div>
-                </div>
-                <div class="find-box-buttons">
-                    <?php submit_button( __( 'Select', 'checkers' ), 'primary alignright', 'find-posts-submit', false ); ?>
-                    <div class="clear"></div>
-                </div>
-            </div><!-- #find-posts -->
-
+            <?php find_posts_div(); // WP media-attach search-posts form ?>
 
             <p><label for="url"><?php _e('Enter URL (or ', 'checkers') ?><a href="#checkers-url" onclick="findPosts.open( 'action','find_posts' ); return false;" id="find-posts-link" class="hide-if-no-js aria-button-if-js" aria-label="Open search-posts list form" role="button"><?php _e('Search Posts', 'checkers') ?></a><?php _e('):', 'checkers') ?></label><br>
             <input type="url" required id="checkers-input-url" name="checkers_input_url" value="<?php echo esc_url( $url_to_check ); ?>" /></p>
@@ -260,7 +233,6 @@ function checkers_settings_display() {
             <span class="description"><?php _e( 'Links open a new window at:', 'checkers' ); ?></span></p>
             <?php echo checkers_list_site_results_links(); ?>
         </figure>
-
     </div><!-- .wrap -->
     <?php
 }
@@ -277,11 +249,14 @@ function checkers_load_admin_scripts( $hook ) {
     global $checkers_pages, $checkers_links, $checkers_sites;
 
     if ( is_admin() && $checkers_options_page == $hook ) { // Load only on this screen.
-        // Used to display and process the search-post modal form.
+        // Files for the search-post modal form, called by find_posts_div().
         wp_enqueue_style('thickbox');
         wp_enqueue_script( 'thickbox' );
         wp_enqueue_script( 'media' );
-        // wp_enqueue_script( 'wp-ajax-response' );
+        wp_enqueue_script( 'wp-ajax-response' );
+
+        // Change form's default text.
+        add_filter( 'gettext', 'checkers_text_strings', 20, 3 );
 
         // Set files versions to file modification time (cache-buster).
         $path_js  = CHECKERS_DIR . 'js/checkers-ajax.js';
@@ -295,9 +270,36 @@ function checkers_load_admin_scripts( $hook ) {
     			'checkers_nonce' => wp_create_nonce('checkers-nonce'),
     		)
     	);
+
+
+
     }
 }
 add_action('admin_enqueue_scripts', 'checkers_load_admin_scripts');
+
+/**
+ * Change text of search-post form heading.
+ *
+ * Plugin uses WP media-attach form, called by find_posts_div().
+ *
+ * @link http://codex.wordpress.org/Plugin_API/Filter_Reference/gettext
+ *
+ * @since 0.1.1
+ *
+ * @param string $translation  Translated text.
+ * @param string $text         Text to translate.
+ * @param string $domain       Text domain. Unique identifier for retrieving translated strings.
+ *
+ * @return string $translated_text Translated text
+ */
+function checkers_text_strings( $translation, $text, $domain ) {
+        switch ( $translation ) {
+            case 'Attach to existing content' :
+                $translation = __( 'Select a post', 'default' );
+                break;
+        }
+        return $translation;
+}
 
 /**
  * Build HTML list of page-checking services (without links).
