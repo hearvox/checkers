@@ -93,7 +93,7 @@ add_action( 'activated_plugin', 'checkers_activation_redirect' );
 /*
  * Webpage-checking services that process results with URL in query string.
  *
- * array({Service-name}, {Service-URL-prefix}, {encode?}, {dashicon})
+ * array({Service-name}, {Service-URL-prefix}, {encode = 1}, {dashicon})
  */
 $checkers_pages = array(
     array('Google: Pagespeed Insights', 'https://developers.google.com/speed/pagespeed/insights/?url=', 1, 'performance'),
@@ -118,7 +118,7 @@ $checkers_more = array(
 /*
  * Webpage-checking services that need URL entered at site.
  *
- * array({Service-name}, {Service-URL}, {API?}, {dashicon})
+ * array({Service-name}, {Service-URL}, {API = 1}, {dashicon})
  */
 $checkers_links = array(
     array('WebPagetest', 'https://www.webpagetest.org/', 1, 'performance'),
@@ -131,13 +131,13 @@ $checkers_links = array(
 /*
  * Site-checking services that process results with domain in query string.
  *
- * array({Service-name}, {Service-URL-prefix}, {domain?}, {dashicon})
+ * array({Service-name}, {Service-URL-prefix}, {domain-only = 0}, {dashicon})
  */
 $checkers_sites = array(
     array('SimilarWeb', 'https://www.similarweb.com/website/', 0, 'chart-line'),
     array('Alexa', 'https://www.alexa.com/siteinfo/', 0, 'chart-line'),
     array('Quantcast', 'https://www.quantcast.com/', 0, 'chart-line'),
-    array('Sucuri', 'https://sitecheck.sucuri.net/', 0, 'lock'),
+    array('Sucuri', 'https://sitecheck.sucuri.net/results/', 0, 'lock'),
     array('SSL Labs', 'https://www.ssllabs.com/ssltest/analyze.html?d=', 0, 'lock'),
     array('W3Techs', 'https://w3techs.com/sites/info/', 0, 'editor-code'),
     array('BuiltWith', 'https://builtwith.com/', 0, 'editor-code'),
@@ -187,10 +187,9 @@ function checkers_settings_display() {
     ?>
     <div class="wrap">
         <h1>Checkers: <?php _e('Links to Results', 'checkers' ); ?></h1>
-        <p><?php _e( 'Get results from online webpage and website checkers.', 'checkers' ); ?></p>
 
+        <p><?php _e('Submit an URL to get results at online webpage checking services.', 'checkers') ?></p>
 
-        <h2 id="checkers-page"><?php _e('Page checkers', 'checkers' ); ?></h2>
         <form name="checkers-posts-form" id="checkers-posts-form" method="post" action="">
             <?php wp_nonce_field('checkers_nonce'); ?>
 
@@ -221,43 +220,44 @@ function checkers_settings_display() {
                 </div>
             </div><!-- #find-posts -->
 
-            <p><?php _e( 'Check a webpage for <span class="dashicons-before dashicons-performance">performance</span>, <span class="dashicons-before dashicons-universal-access-alt">accessibility</span>, and <span class="dashicons-before dashicons-share">shares</span>.', 'checkers' ); ?></p>
 
-            <p><label for="url"><?php _e('1. Enter URL (or ', 'checkers') ?><a href="#checkers-url" onclick="findPosts.open( 'action','find_posts' ); return false;" id="find-posts-link" class="hide-if-no-js aria-button-if-js" aria-label="Open search-posts list form" role="button"><?php _e('Search Posts', 'checkers') ?></a><?php _e('):', 'checkers') ?></label><br>
+            <p><label for="url"><?php _e('Enter URL (or ', 'checkers') ?><a href="#checkers-url" onclick="findPosts.open( 'action','find_posts' ); return false;" id="find-posts-link" class="hide-if-no-js aria-button-if-js" aria-label="Open search-posts list form" role="button"><?php _e('Search Posts', 'checkers') ?></a><?php _e('):', 'checkers') ?></label><br>
             <input type="url" required id="checkers-input-url" name="checkers_input_url" value="<?php echo esc_url( $url_to_check ); ?>" /></p>
 
-
-            <p><?php _e('2.', 'checkers') ?> <input type="submit" value="<?php _e('Submit URL', 'checkers') ?>" class="button button-primary" />
+            <p><input type="submit" value="<?php _e('Submit URL', 'checkers') ?>" class="button button-primary" />
         </form>
+
+        <h2 id="checkers-page"><?php _e('Page checkers', 'checkers' ); ?></h2>
+        <p><?php _e( 'Check a webpage for <span class="dashicons-before dashicons-performance">performance</span>, <span class="dashicons-before dashicons-universal-access-alt">accessibility</span>, and <span class="dashicons-before dashicons-share">shares</span>.', 'checkers' ); ?></p>
+
         <figure id="checkers-results" class="checkers-results checkers-page-results">
-
-        <?php if ( $url_to_check ) { // If webpage submitted via form. ?>
-
-            <p><?php _e( 'These links open a new browser window which starts processing your results from:', 'checkers' ); ?></p>
+            <?php if ( $url_to_check ) { // If webpage submitted via form. ?>
+            <p><?php _e( 'Results for: ', 'checkers' ); ?><?php echo $url_to_check; ?><br>
+            <span class="description"><?php _e( 'Links open a new window at', 'checkers' ); ?></span></p>
             <?php echo checkers_list_page_results_links( $url_to_check ); ?>
             <button id="checkers-more-button" class="button"><?php _e( 'More checkers&hellip;', 'checkers' ); ?></button></p>
 
             <!-- Hidden by default; displayed by button click. -->
             <aside id="checkers-more-links" style="display: none;">
-            <p><?php _e( 'More results links:', 'checkers' ); ?></p>
+            <p><?php _e( 'More results:', 'checkers' ); ?></p>
             <?php echo checkers_list_more_results_links( $url_to_check ); ?>
+            <p class="description"><?php _e('* Service limits the number of free daily checks.', 'checkers') ?></p>
             <p><?php _e( 'These services require you enter an URL at their site. Your URL is now in your clipboard, ready to paste into their field:', 'checkers' ); ?></p>
             <?php echo checkers_list_page_services_links(); ?>
-            <p class="description"><?php _e('* Service limits the number of free daily checks.', 'checkers') ?></p>
             </aside><!-- #checkers-more-links -->
 
             <?php } else { ?>
-
-            <p><?php _e('Submit an URL to get results from these online webpage checking services:', 'checkers') ?></p>
             <?php echo checkers_list_page_services(); ?>
             <?php } ?>
-
         </figure>
+
         <hr>
 
+        <h2 id="checkers-site"><?php _e('Site checkers', 'checkers' ); ?></h2>
+        <p><?php _e( 'Check this website for <span class="dashicons-before dashicons-chart-line">statistics</span>, <span class="dashicons-before dashicons-lock">security</span>, and <span class="dashicons-before dashicons-editor-code">technologies</span>.', 'checkers' ); ?></p>
         <figure id="checkers-site-results" class="checkers-results">
-            <h2 id="checkers-site"><?php _e('Site checkers', 'checkers' ); ?></h2>
-            <p><?php _e( 'Check this website for <span class="dashicons-before dashicons-chart-line">statistics</span>, <span class="dashicons-before dashicons-lock">security</span>, and <span class="dashicons-before dashicons-editor-code">technologies</span>.', 'checkers' ); ?></p>
+            <p><?php _e( 'Results for: ', 'checkers' ); ?><?php echo parse_url( get_site_url(), PHP_URL_HOST); ?><br>
+            <span class="description"><?php _e( 'Links open a new window at:', 'checkers' ); ?></span></p>
             <?php echo checkers_list_site_results_links(); ?>
         </figure>
 
@@ -276,12 +276,12 @@ function checkers_load_admin_scripts( $hook ) {
 	global $checkers_options_page; // Hook for this screen.
     global $checkers_pages, $checkers_links, $checkers_sites;
 
-    if ( $checkers_options_page == $hook ) { // Load only on this screen.
+    if ( is_admin() && $checkers_options_page == $hook ) { // Load only on this screen.
         // Used to display and process the search-post modal form.
         wp_enqueue_style('thickbox');
-        wp_enqueue_script('thickbox');
-        wp_enqueue_script('media');
-        // wp_enqueue_script('wp-ajax-response');
+        wp_enqueue_script( 'thickbox' );
+        wp_enqueue_script( 'media' );
+        // wp_enqueue_script( 'wp-ajax-response' );
 
         // Set files versions to file modification time (cache-buster).
         $path_js  = CHECKERS_DIR . 'js/checkers-ajax.js';
@@ -293,7 +293,6 @@ function checkers_load_admin_scripts( $hook ) {
         wp_enqueue_style( 'checkers-css', CHECKERS_URL . 'css/checkers.css', array(), $vers_css );
     	wp_localize_script('checkers-js', 'checkers_vars', array(
     			'checkers_nonce' => wp_create_nonce('checkers-nonce'),
-                'checkers_error'  => __('Enter a valid URL.', 'checkers'),
     		)
     	);
     }
