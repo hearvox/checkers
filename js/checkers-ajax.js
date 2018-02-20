@@ -1,9 +1,7 @@
-var checks, services, check_url, check_links, i;
-
 window.onload = function() {
     /* Indicate a change to user (helpful when submitting a 2nd URL). */
     document.getElementById( 'checkers-input-url' ).addEventListener( 'focus', function() {
-        document.getElementById( 'checkers-results' ).style.backgroundColor = '#fffff3';
+        document.getElementById( 'checkers-results' ).style.backgroundColor = '#fff';
     });
 
     document.getElementById( 'find-posts-link' ).addEventListener( 'click', function() {
@@ -21,7 +19,6 @@ window.onload = function() {
 
     if ( document.getElementById( 'checkers-more-button' ) ) {
         document.getElementById( 'checkers-results' ).style.backgroundColor = '#F7F7F7';
-        document.getElementById( 'checkers-site-results' ).style.backgroundColor = '#F7F7F7';
 
         document.getElementById( 'checkers-more-button' ).addEventListener( 'click', function( event ) {
             event.preventDefault();
