@@ -18,7 +18,9 @@ window.onload = function() {
 
 
     if ( document.getElementById( 'checkers-more-button' ) ) {
-        document.getElementById( 'checkers-results' ).style.backgroundColor = '#F7F7F7';
+
+        // Style webpage results list (to match webiste results list).
+        document.getElementById( 'checkers-results' ).classList.add( 'checkers-done' );
 
         document.getElementById( 'checkers-more-button' ).addEventListener( 'click', function( event ) {
             event.preventDefault();
@@ -27,7 +29,8 @@ window.onload = function() {
             input_url.select();
             document.execCommand( 'Copy' );
             input_url.blur(); // Unfocus selection.
-            document.getElementById( 'checkers-results' ).style.backgroundColor = '#F7F7F7';
+            document.getElementById( 'checkers-results' ).style.backgroundColor = 'transparent';
+
             document.getElementById( 'checkers-more-links' ).style.display = 'block';
             document.getElementById( 'checkers-more-button' ).style.display = 'none';
             // <p class="description">' + checkers_vars.checkers_error + '</p>';

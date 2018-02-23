@@ -89,7 +89,7 @@ add_action( 'activated_plugin', 'checkers_activation_redirect' );
 
 
 /* ------------------------------------------------------------------------ *
- * Site checking services
+ * Site checking services , filters in checkers_lists().
  * ------------------------------------------------------------------------ */
 /*
  * Webpage-checking services that process results with URL in query string.
@@ -144,6 +144,7 @@ $checkers_sites = array(
     array('BuiltWith', 'https://builtwith.com/', 0, 'editor-code'),
 );
 
+
 /* ------------------------------------------------------------------------ *
  * Settings screen
  * ------------------------------------------------------------------------ */
@@ -195,8 +196,8 @@ function checkers_settings_display() {
                 <?php wp_nonce_field('checkers_nonce'); ?>
                 <?php find_posts_div(); // WP media-attach search-posts form ?>
 
-                <p><label for="url"><?php _e('Enter URL (or ', 'checkers') ?><a href="#checkers-url" onclick="findPosts.open( 'action','find_posts' ); return false;" id="find-posts-link" class="hide-if-no-js aria-button-if-js" aria-label="Open search-posts list form" role="button"><?php _e('Search Posts', 'checkers') ?></a><?php _e('):', 'checkers') ?></label><br>
-                <input type="url" required id="checkers-input-url" name="checkers_input_url" value="<?php echo esc_url( $url_to_check ); ?>" /></p>
+                <p><label for="url"><?php _e('Enter URL (include https or http) or ', 'checkers') ?><a href="#checkers-url" onclick="findPosts.open( 'action','find_posts' ); return false;" id="find-posts-link" class="hide-if-no-js aria-button-if-js" aria-label="Open search-posts list form" role="button"><?php _e('Search Posts:', 'checkers') ?></a></label><br>
+                <input type="url" required id="checkers-input-url" name="checkers_input_url" value="<?php echo esc_url( $url_to_check ); ?>" pattern="https?://.+" title="Please specify https:// or http://." />
 
                 <p><input type="submit" value="<?php _e('Submit URL', 'checkers') ?>" class="button button-primary" />
             </fieldset>
@@ -209,8 +210,8 @@ function checkers_settings_display() {
 
         <figure id="checkers-results" class="checkers-results">
             <?php if ( $url_to_check ) { // If webpage submitted via form. ?>
-            <p><span class="description"><?php _e( 'URL:', 'checkers' ); ?></span> <?php echo $url_to_check; ?><br>
-            <span class="description"><?php _e( 'Results open in a new window at:', 'checkers' ); ?></span></p>
+            <p><?php _e( 'Webpage:', 'checkers' ); ?> <span class="test-url"><?php echo $url_to_check; ?></span><br>
+            <?php _e( 'Get your results (opens in a new window) at:', 'checkers' ); ?></p>
             <?php echo checkers_list_page_results_links( $url_to_check ); ?>
             <button id="checkers-more-button" class="button"><?php _e( 'More checkers&hellip;', 'checkers' ); ?></button></p>
 
@@ -232,11 +233,12 @@ function checkers_settings_display() {
 
         <h2 id="checkers-site"><?php _e('Site checkers', 'checkers' ); ?></h2>
         <p><?php _e( 'Check this website for <span class="dashicons-before dashicons-chart-line">statistics</span>, <span class="dashicons-before dashicons-lock">security</span>, and <span class="dashicons-before dashicons-editor-code">technologies</span>.', 'checkers' ); ?></p>
-        <figure id="checkers-results-sites" class="checkers-results">
-            <p><span class="description"><?php _e( 'Site:', 'checkers' ); ?></span> <?php echo parse_url( get_site_url(), PHP_URL_HOST); ?><br>
-            <span class="description"><?php _e( 'Results open in a new window at::', 'checkers' ); ?></span></p>
+        <figure id="checkers-results-sites" class="checkers-results checkers-done">
+            <p><?php _e( 'Website:', 'checkers' ); ?> <span class="test-url"><?php echo parse_url( get_site_url(), PHP_URL_HOST); ?></span><br>
+            <?php _e( 'Get your results (opens in a new window) at:', 'checkers' ); ?></p>
             <?php echo checkers_list_site_results_links(); ?>
         </figure>
+
     </div><!-- .wrap -->
     <?php
 }
@@ -297,7 +299,7 @@ add_action('admin_enqueue_scripts', 'checkers_load_admin_scripts');
 function checkers_text_strings( $translation, $text, $domain ) {
         switch ( $translation ) {
             case 'Attach to existing content' :
-                $translation = __( 'Select a post', 'default' );
+                $translation = __( 'Select a post', 'checkers' );
                 break;
         }
         return $translation;
@@ -315,12 +317,29 @@ function checkers_text_strings( $translation, $text, $domain ) {
  * @param  bool   $sitelink     Whether to use checking site URL w/o user URL (optional).
  * @return string items        HTML list items.
  */
-function hv_checkers_lists( $sites_array, $url_to_check = '', $hostname = 0, $sitelink = 0 ) {
+function checkers_lists( $sites_array, $url_to_check = '', $hostname = 0, $sitelink = 0 ) {
+    global $checkers_pages, $checkers_more, $checkers_links, $checkers_sites;
+
+    // Filter array of webpage-checking services.
+    if ( ! has_filter( 'checkers_checkers_pages' ) ) {
+        $checkers_pages = apply_filters( 'checkers_checkers_pages', $checkers_pages );
+    }
+    // Filter array of additional webpage-checking services.
+    if ( ! has_filter( 'checkers_checkers_more' ) ) {
+        $checkers_more = apply_filters( 'checkers_checkers_more', $checkers_more );
+    }
+    // Filter array of webpage-checking service links.
+    if ( ! has_filter( 'checkers_checkers_links' ) ) {
+        $checkers_links = apply_filters( 'checkers_checkers_links', $checkers_links );
+    }
+    // Filter array of website-checking services.
+    if ( ! has_filter( 'checkers_checkers_sites' ) ) {
+        $checkers_sites = apply_filters( 'checkers_checkers_sites', $checkers_sites );
+    }
+
     $sites = $sites_array;
     $items = '';
     foreach ( $sites_array as $site ) {
-
-
         // Build HTML list of links.
         $items += '<li class="dashicons-before dashicons-' + esc_attr( $site[3] ) + '">';
 
@@ -341,6 +360,7 @@ function hv_checkers_lists( $sites_array, $url_to_check = '', $hostname = 0, $si
 
     return $items;
 }
+
 /**
  * Build HTML list of page-checking services (without links).
  *

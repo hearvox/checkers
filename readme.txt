@@ -1,13 +1,14 @@
 === Checkers ===
 Contributors: hearvox
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3546QM2HAEKXW
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VV9XJMN68B9UC
 Tags: social, performance, accessibility
 Author URI: http://hearingvoices.com/
 Plugin URI: http://hearingvoices.com/tools/checkers/
 GitHub Plugin URI: https://github.com/hearvox/checkers
-Requires at least: 4.0
-Tested up to: 4.9.1
+Requires at least: 4.7
+Tested up to: 4.9.4
 Stable tag: 0.1.1
+Requires PHP: 5.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -69,7 +70,7 @@ This plugin is internationalized (default: English). Please contribute a transla
 The WordPress.org Polyglots Team maintains a comprehensive [Translator’s Handbook](https://make.wordpress.org/polyglots/handbook/). All text strings in this plugin are localized, following the guidelines of the Wordpress.org Plugin Handbook's [Internationalization section](https://developer.wordpress.org/plugins/internationalization/).
 
 = Credits =
-This is part of a [Reynolds Journalism Institute](https://www.rjionline.org) fellowship and an article for [Current](https://current.org/author/bgolding/) public media news.
+Another [Storytelling Tool](https://www.rjionline.org/stories/series/storytelling-tools) from the Reynolds Journalism Institute.
 
 ==  Changelog ==
 

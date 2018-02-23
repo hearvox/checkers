@@ -1,21 +1,37 @@
+
+
+.checkers-results {
+    margin: 0;
+    max-width: 40rem;
+    padding: 0.5em;
+}
+
+.checkers-done {
+    border: 1px solid #999;
+    border-radius: 10px;
+}
+
+#checkers-input-url { width: 40rem; }
+
+.dashicons-before:before { margin-bottom: 0.1rem; }
+
+span.dashicons-before:before { margin-right: 0.125em; }
+
+li.dashicons-before:before { margin-right: 0.25em; }
+
 /* Add space above first occurance of class. */
 li.dashicons-before { margin-top: 1em; } /* Add for all. */
 
 #checkers-results li.dashicons-before:first-child,
-li.dashicons-chart-line ~ .dashicons-chart-line, /* Remove from all but first. */
+li.dashicons-chart-line ~ .dashicons-chart-line,
 li.dashicons-editor-code ~ .dashicons-editor-code,
 li.dashicons-lock ~ .dashicons-lock,
 li.dashicons-performance ~ .dashicons-performance,
 li.dashicons-share ~ .dashicons-share,
 li.dashicons-universal-access-alt ~ .dashicons-universal-access-alt { margin-top: 0; }
 
-.checkers-results {
-    margin: 0;
-    max-width: 40rem;
+.test-url {
+    font-style: italic;
+    white-space: nowrap;
 }
-
-#checkers-results-sites { background-color: #F7F7F7; }
-
-#checkers-input-url { width: 40rem; }
-
 
