@@ -1,8 +1,6 @@
-
-
 .checkers-results {
     margin: 0;
-    max-width: 40rem;
+    max-width: 35rem;
     padding: 0.5em;
 }
 
@@ -11,7 +9,7 @@
     border-radius: 10px;
 }
 
-#checkers-input-url { width: 40rem; }
+#checkers-input-url { width: 35rem; }
 
 .dashicons-before:before { margin-bottom: 0.1rem; }
 
@@ -35,3 +33,26 @@ li.dashicons-universal-access-alt ~ .dashicons-universal-access-alt { margin-top
     white-space: nowrap;
 }
 
+/*
+ * jQuery simple and accessible hide-show system (collapsible regions), using ARIA
+ * @version v1.8.0
+ * Website: https://a11y.nicolas-hoffmann.net/hide-show/
+ */
+.js-to_expand[aria-hidden=true],
+.js-to_expand[data-hidden=true] {
+  display: none;
+}
+/* optionnal or prefix with .js with modernizr */
+.expandmore__button[aria-expanded=false] > .expandmore__symbol:before,
+.expandmore__button[data-expanded=false] > .expandmore__symbol:before {
+  content : '+ ';
+}
+.expandmore__button[aria-expanded=true] > .expandmore__symbol:before,
+.expandmore__button[data-expanded=true] > .expandmore__symbol:before {
+  content : '− ';
+}
+.expandmore__button {
+  background: none;
+  font-size: inherit;
+  color: inherit;
+}

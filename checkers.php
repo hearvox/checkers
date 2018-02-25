@@ -89,7 +89,7 @@ add_action( 'activated_plugin', 'checkers_activation_redirect' );
 
 
 /* ------------------------------------------------------------------------ *
- * Site checking services , filters in checkers_lists().
+ * Site checking service APIs, filter in checkers_lists().
  * ------------------------------------------------------------------------ */
 /*
  * Webpage-checking services that process results with URL in query string.
@@ -106,6 +106,11 @@ $checkers_pages = array(
     array('Toptal: Colorblind Web Page Filter', 'https://www.toptal.com/designers/colorfilter?process_type=deutan&orig_uri=', 0, 'universal-access-alt'),
 );
 
+/*
+ * Additional page-checking services that process results with URL in query string.
+ *
+ * array({Service-name}, {Service-URL-prefix}, {encode = 1}, {dashicon})
+ */
 $checkers_more = array(
     array('Google: Mobile-Friendly Test', 'https://search.google.com/test/mobile-friendly?url=', 1, 'performance'),
     array('Google: Structured Data Test', 'https://search.google.com/structured-data/testing-tool/u/0/#url=', 1, 'performance'),
@@ -177,14 +182,18 @@ add_action('admin_menu', 'checkers_settings_menu');
  * @since   0.1.0
  */
 function checkers_settings_display() {
-    /* Get form date, if submitted. */
-    if ( isset( $_POST['found_post_id'] ) ) { // Post ID from search-posts form.
+    /* If form data is submitted. */
+    // Get post ID from search-posts form.
+    if ( isset( $_POST['found_post_id'] ) ) {
         $url_to_check = get_permalink( $_POST['found_post_id'] );
-    } elseif ( isset( $_POST['checkers_input_url'] ) ) { // User-entered URL.
+    // Or get (and validate) user-entered URL from URL field.
+    } elseif ( isset( $_POST['checkers_input_url'] ) ) {
         $url_to_check = $_POST['checkers_input_url'];
     } else {
         $url_to_check = '';
     }
+
+    $style = ( $url_to_check ) ? ' card': '';
 
     ?>
     <div class="wrap">
@@ -208,16 +217,15 @@ function checkers_settings_display() {
         <h2 id="checkers-page"><?php _e('Page checkers', 'checkers' ); ?></h2>
         <p><?php _e( 'Check a webpage for <span class="dashicons-before dashicons-performance">performance</span>, <span class="dashicons-before dashicons-universal-access-alt">accessibility</span>, and <span class="dashicons-before dashicons-share">shares</span>.', 'checkers' ); ?></p>
 
-        <figure id="checkers-results" class="checkers-results">
+        <figure id="checkers-results" class="checkers-results<?php echo $style ?>">
             <?php if ( $url_to_check ) { // If webpage submitted via form. ?>
             <p><?php _e( 'Webpage:', 'checkers' ); ?> <span class="test-url"><?php echo $url_to_check; ?></span><br>
             <?php _e( 'Get your results (opens in a new window) at:', 'checkers' ); ?></p>
             <?php echo checkers_list_page_results_links( $url_to_check ); ?>
-            <button id="checkers-more-button" class="button"><?php _e( 'More checkers&hellip;', 'checkers' ); ?></button></p>
-
             <!-- Hidden by default; displayed by button click. -->
-            <aside id="checkers-more-links" style="display: none;">
-            <p><?php _e( 'More results:', 'checkers' ); ?></p>
+            <p class="js-expandmore"><?php _e( 'More checkers', 'checkers' ); ?></p>
+            <aside id="checkers-more-links" class="js-to_expand">
+            <section>
             <?php echo checkers_list_more_results_links( $url_to_check ); ?>
             <p class="description"><?php _e('* Service limits the number of free daily checks.', 'checkers') ?></p>
             <p><?php _e( 'These services require you enter an URL at their site. Your URL is now in your clipboard, ready to paste into their field:', 'checkers' ); ?></p>
@@ -233,7 +241,7 @@ function checkers_settings_display() {
 
         <h2 id="checkers-site"><?php _e('Site checkers', 'checkers' ); ?></h2>
         <p><?php _e( 'Check this website for <span class="dashicons-before dashicons-chart-line">statistics</span>, <span class="dashicons-before dashicons-lock">security</span>, and <span class="dashicons-before dashicons-editor-code">technologies</span>.', 'checkers' ); ?></p>
-        <figure id="checkers-results-sites" class="checkers-results checkers-done">
+        <figure id="checkers-results-sites" class="checkers-results card">
             <p><?php _e( 'Website:', 'checkers' ); ?> <span class="test-url"><?php echo parse_url( get_site_url(), PHP_URL_HOST); ?></span><br>
             <?php _e( 'Get your results (opens in a new window) at:', 'checkers' ); ?></p>
             <?php echo checkers_list_site_results_links(); ?>
@@ -320,6 +328,10 @@ function checkers_text_strings( $translation, $text, $domain ) {
 function checkers_lists( $sites_array, $url_to_check = '', $hostname = 0, $sitelink = 0 ) {
     global $checkers_pages, $checkers_more, $checkers_links, $checkers_sites;
 
+    /**
+     * Filters for lists of checking services.
+     * See arrays above for data needed in each array item.
+     */
     // Filter array of webpage-checking services.
     if ( ! has_filter( 'checkers_checkers_pages' ) ) {
         $checkers_pages = apply_filters( 'checkers_checkers_pages', $checkers_pages );
