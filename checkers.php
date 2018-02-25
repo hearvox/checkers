@@ -164,6 +164,64 @@ $checkers_sites = array(
 function checkers_lists( $sites_array, $url_to_check = '', $hostname = 0, $sitelink = 0 ) {
     global $checkers_pages, $checkers_more, $checkers_links, $checkers_sites;
 
+
+    /* See my_checkers_pages() example below of how to filter services arrays. */
+    /**
+     * Filters the $checkers_pages array of web-checking services.
+     *
+     * Service data is:
+     * array({Service-name}, {Service-URL}, {encode = 1}, {dashicon})
+     *
+     * Boolean (encode) is whether service requires an encoded query string URL.
+     *
+     * @since 0.1.1
+     *
+     * @param array $checkers_pages Data for web-checking services.
+     */
+    $checkers_pages = apply_filters( 'checkers_pages', $checkers_pages );
+
+    /**
+     * Filters the $checkers_more array of web-checking services.
+     *
+     * Service data is:
+     * array({Service-name}, {Service-URL}, {encode = 1}, {dashicon})
+     *
+     * Boolean (encode) is whether service requires an encoded query string URL.
+     *
+     * @since 0.1.1
+     *
+     * @param array $checkers_more Data for web-checking services.
+     */
+    $checkers_more = apply_filters( 'checkers_more', $checkers_more );
+
+    /**
+     * Filters the $checkers_links array of web-checking services.
+     *
+     * Service data is:
+     * array({Service-name}, {Service-URL-prefix}, {API = 1}, {dashicon})
+     *
+     * Boolean 'API' is whether there is an API key (for future use) .
+     *
+     * @since 0.1.1
+     *
+     * @param array $checkers_links Data for web-checking services.
+     */
+    $checkers_links = apply_filters( 'checkers_links', $checkers_links );
+
+    /**
+     * Filters the $checkers_sites array of web-checking services.
+     *
+     * Service data is:
+     * array({Service-name}, {Service-URL-prefix}, {domain-only = 0}, {dashicon})
+     *
+     * Boolean (domain-only) is whether service requires domain name only (not full URL).
+     *
+     * @since 0.1.1
+     *
+     * @param array $checkers_sites Data for web-checking services.
+     */
+    $checkers_sites = apply_filters( 'checkers_sites', $checkers_sites );
+
     $sites = $sites_array;
     $items = '<ol>';
     foreach ( $sites_array as $site ) {
