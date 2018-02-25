@@ -1,52 +1,3 @@
-window.onload = function() {
-    // When submitting URL vis Search Posts modal form, don't require page's URL field.
-    document.getElementById( 'find-posts-submit' ).addEventListener( 'click', function() {
-        document.getElementById( 'checkers-input-url' ).removeAttribute( "required" );
-    });
-
-    // Indicate a change to user (helpful when submitting a 2nd URL). */
-    // Add style when user enters URL field.
-    document.getElementById( 'checkers-input-url' ).addEventListener( 'focus', function() {
-        document.getElementById( 'checkers-results' ).style.backgroundColor = '#f7f7f7';
-    });
-
-    // If form data submitted, this hide/show button element exists.
-    if ( document.getElementById( 'label_expand_1' ) ) {
-
-        // Restore style when user exits URL field.
-        document.getElementById( 'checkers-input-url' ).addEventListener( 'blur', function() {
-            document.getElementById( 'checkers-results' ).style.backgroundColor = '#fff';
-        });
-
-        // Copy user-entered URL into clipboard.
-        document.getElementById( 'label_expand_1' ).addEventListener( 'click', function( event ) {
-            event.preventDefault();
-            // Get form input.
-            let input_url = document.getElementById( 'checkers-input-url' );
-            //Select URL and copy into clipboard.
-            input_url.select();
-            document.execCommand( 'Copy' );
-            input_url.blur(); // Unfocus selection.
-            document.getElementById( 'checkers-results' ).style.backgroundColor = '#fff';
-        });
-    }
-};
-
-/**
- * Check for valid URL (allows protocol-relative).
- *
- * Copyright (c) 2010-2013 Diego Perini, MIT licensed
- * @see https://gist.github.com/dperini/729294
- * @see https://mathiasbynens.be/demo/url-regex
- * @see https://github.com/jquery-validation/jquery-validation/
- *
- * @param  string  URL
- * @return boolean True if passed valid URL, else false.
- */
-function checkers_validate_url( url ) {
-    return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test( url );
-}
-
 jQuery(document).ready(function($) {
 
     /*
@@ -182,3 +133,52 @@ jQuery(document).ready(function($) {
 
 
 });
+
+window.onload = function() {
+    // When submitting URL vis Search Posts modal form, don't require page's URL field.
+    document.getElementById( 'find-posts-submit' ).addEventListener( 'click', function() {
+        document.getElementById( 'checkers-input-url' ).removeAttribute( "required" );
+    });
+
+    // Indicate a change to user (helpful when submitting a 2nd URL). */
+    // Add style when user enters URL field.
+    document.getElementById( 'checkers-input-url' ).addEventListener( 'focus', function() {
+        document.getElementById( 'checkers-results' ).style.backgroundColor = '#f7f7f7';
+    });
+
+    // If form data submitted, this hide/show button element exists.
+    if ( document.getElementById( 'label_expand_1' ) ) {
+
+        // Restore style when user exits URL field.
+        document.getElementById( 'checkers-input-url' ).addEventListener( 'blur', function() {
+            document.getElementById( 'checkers-results' ).style.backgroundColor = '#fff';
+        });
+
+        // Copy user-entered URL into clipboard.
+        document.getElementById( 'label_expand_1' ).addEventListener( 'click', function( event ) {
+            event.preventDefault();
+            // Get form input.
+            let input_url = document.getElementById( 'checkers-input-url' );
+            //Select URL and copy into clipboard.
+            input_url.select();
+            document.execCommand( 'Copy' );
+            input_url.blur(); // Unfocus selection.
+            document.getElementById( 'checkers-results' ).style.backgroundColor = '#fff';
+        });
+    }
+};
+
+/**
+ * Check for valid URL (allows protocol-relative).
+ *
+ * Copyright (c) 2010-2013 Diego Perini, MIT licensed
+ * @see https://gist.github.com/dperini/729294
+ * @see https://mathiasbynens.be/demo/url-regex
+ * @see https://github.com/jquery-validation/jquery-validation/
+ *
+ * @param  string  URL
+ * @return boolean True if passed valid URL, else false.
+ */
+function checkers_validate_url( url ) {
+    return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})).?)(?::\d{2,5})?(?:[/?#]\S*)?$/i.test( url );
+}

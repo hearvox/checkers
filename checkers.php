@@ -368,7 +368,6 @@ function checkers_settings_display() {
             <?php echo checkers_lists( $checkers_sites, $url_to_check, 1 ); ?>
             <?php // echo checkers_list_site_results_links(); ?>
         </figure>
-        <pre><?php global $checkers_pages; print_r( $checkers_pages ) ?></pre>
 
     </div><!-- .wrap -->
     <?php
@@ -383,7 +382,6 @@ function checkers_settings_display() {
  */
 function checkers_load_admin_scripts( $hook ) {
 	global $checkers_options_page; // Hook for this screen.
-    global $checkers_pages, $checkers_links, $checkers_sites;
 
     if ( is_admin() && $checkers_options_page == $hook ) { // Load only on this screen.
         // Files for the search-post modal form, called by find_posts_div().
