@@ -62,9 +62,7 @@ To install and use the Checkers plugin:
 == Frequently Asked Questions ==
 
 = How do I add or remove checking services? =
-The <code>checkers_lists()</code> function has filters for all the services lists.
-
-
+The <code>checkers_lists()</code> function has filters for all the services lists. See the main plugin file for <code>my_checkers_pages()</code>, an  example of how to use these filters.
 
 = How can I contribute to Checkers? =
 Checkers is now on [GitHub](https://github.com/hearvox/checkers). Pull Requests welcome.

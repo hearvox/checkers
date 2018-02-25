@@ -149,7 +149,67 @@ $checkers_sites = array(
     array('BuiltWith', 'https://builtwith.com/', 0, 'editor-code'),
 );
 
+/**
+ * Build HTML list items of webpage or website checking services.
+ *
+ * @since   0.1.1
+ *
+ * @param  string $sites_array  Array of sites and metadata (required)
+ * @param  string $url_to_check Optional. User-entered URL for service query string.
+ * @param  bool   $hostname     Optional. Whether to use just the domain name of user URL.
+ * @param  bool   $sitelink     Optional. Whether to use checking site URL w/o user URL.
+ *
+ * @return string items HTML list items.
+ */
+function checkers_lists( $sites_array, $url_to_check = '', $hostname = 0, $sitelink = 0 ) {
+    global $checkers_pages, $checkers_more, $checkers_links, $checkers_sites;
 
+    $sites = $sites_array;
+    $items = '<ol>';
+    foreach ( $sites_array as $site ) {
+        // Build HTML list of links.
+        $items .= '<li class="dashicons-before dashicons-' . esc_attr( $site[3] ) . '">';
+
+        // Add link for results if param passed.
+        if ( $url_to_check ) {
+            if ( $hostname ) { // For checker sites: domain name only.
+                $url_to_use = parse_url( get_site_url(), PHP_URL_HOST);
+            } else if ( $sitelink ) { // Use site link only (not user URL).
+                $url_to_use = '';
+            } else { // For checking webpages, some checkers need encoded URL.
+                $url_to_use = ( $site[2] ) ? urlencode( $url_to_check ) : $url_to_check;
+            }
+            $items .= '<a href="' . esc_url( $site[1] . $url_to_use ) . '" target="_blank">';
+            $items .= esc_textarea( $site[0] ) . '</a></li>';
+        }  else // No URL to check provided.
+        $items .= $site[0] . '</li>';
+    }
+    $items .= '</ol>';
+
+    return $items;
+}
+
+/*
+// Example of how to filter service lists:
+function my_checkers_pages( $checkers_pages ) {
+    // Unset by array item index number (starts with 0).
+    unset( $checkers_pages[1] ); // Remove 2nd item.
+
+    // Add new API service, array item content is:
+    // array({Service-name}, {Service-URL-prefix}, {encode = 1}, {dashicon})
+    // Add new service to end of the list.
+    $checkers_pages[] = array('Example A11y Checker', 'https://api.example.com/a11y/?uri=', 1, 'a11y');
+    // Add new service as the 5th item in the list.
+    $checkers_pages[4] = array('Example Share Checker', 'https://api.example.com/share/?uri=', 1, 'share');
+
+
+    ksort( $checkers_pages );
+
+    return $checkers_pages;
+}
+add_filter( 'checkers_pages', 'my_checkers_pages' );
+
+*/
 /* ------------------------------------------------------------------------ *
  * Settings screen
  * ------------------------------------------------------------------------ */
@@ -182,6 +242,8 @@ add_action('admin_menu', 'checkers_settings_menu');
  * @since   0.1.0
  */
 function checkers_settings_display() {
+    global $checkers_pages, $checkers_more, $checkers_links, $checkers_sites;
+
     /* If form data is submitted. */
     // Get post ID from search-posts form.
     if ( isset( $_POST['found_post_id'] ) ) {
@@ -222,19 +284,19 @@ function checkers_settings_display() {
             <?php if ( $url_to_check ) { // If webpage submitted via form. ?>
             <p><?php _e( 'Webpage:', 'checkers' ); ?> <span class="test-url"><?php echo $url_to_check; ?></span><br>
             <?php _e( 'Get your results (opens in a new window) at:', 'checkers' ); ?></p>
-            <?php echo checkers_list_page_results_links( $url_to_check ); ?>
+            <?php echo checkers_lists( $checkers_pages, $url_to_check  ); ?>
             <!-- Hidden by default; displayed by button click. -->
             <p class="js-expandmore"><?php _e( 'More checkers', 'checkers' ); ?></p>
             <aside id="checkers-more-links" class="js-to_expand">
             <section>
-            <?php echo checkers_list_more_results_links( $url_to_check ); ?>
+            <?php echo checkers_lists( $checkers_more, $url_to_check  ); ?>
             <p class="description"><?php _e('* Service limits the number of free daily checks.', 'checkers') ?></p>
             <p><?php _e( 'These services require you enter an URL at their site. Your URL is now in your clipboard, ready to paste into their field:', 'checkers' ); ?></p>
-            <?php echo checkers_list_page_services_links(); ?>
+            <?php echo checkers_lists( $checkers_links, $url_to_check, 0, 1 ); ?>
             </aside><!-- #checkers-more-links -->
 
             <?php } else { ?>
-            <?php echo checkers_list_page_services(); ?>
+            <?php echo checkers_lists( $checkers_pages ); ?>
             <?php } ?>
         </figure>
 
@@ -245,8 +307,10 @@ function checkers_settings_display() {
         <figure id="checkers-results-sites" class="checkers-results card">
             <p><?php _e( 'Website:', 'checkers' ); ?> <span class="test-url"><?php echo parse_url( get_site_url(), PHP_URL_HOST); ?></span><br>
             <?php _e( 'Get your results (opens in a new window) at:', 'checkers' ); ?></p>
-            <?php echo checkers_list_site_results_links(); ?>
+            <?php echo checkers_lists( $checkers_sites, $url_to_check, 1 ); ?>
+            <?php // echo checkers_list_site_results_links(); ?>
         </figure>
+        <pre><?php global $checkers_pages; print_r( $checkers_pages ) ?></pre>
 
     </div><!-- .wrap -->
     <?php
@@ -315,64 +379,7 @@ function checkers_text_strings( $translation, $text, $domain ) {
 }
 
 
-/**
- * Build HTML list items of webpage or website checking services.
- *
- * @since   0.1.1
- *
- * @param  string $sites_array  Array of sites and metadata (required)
- * @param  string $url_to_check User-entered URL for service query string (optional).
- * @param  bool   $hostname     Whether to use just the domain name of user URL (optional).
- * @param  bool   $sitelink     Whether to use checking site URL w/o user URL (optional).
- * @return string items        HTML list items.
- */
-function checkers_lists( $sites_array, $url_to_check = '', $hostname = 0, $sitelink = 0 ) {
-    global $checkers_pages, $checkers_more, $checkers_links, $checkers_sites;
 
-    /**
-     * Filters for lists of checking services.
-     * See arrays above for data needed in each array item.
-     */
-    // Filter array of webpage-checking services.
-    if ( ! has_filter( 'checkers_checkers_pages' ) ) {
-        $checkers_pages = apply_filters( 'checkers_checkers_pages', $checkers_pages );
-    }
-    // Filter array of additional webpage-checking services.
-    if ( ! has_filter( 'checkers_checkers_more' ) ) {
-        $checkers_more = apply_filters( 'checkers_checkers_more', $checkers_more );
-    }
-    // Filter array of webpage-checking service links.
-    if ( ! has_filter( 'checkers_checkers_links' ) ) {
-        $checkers_links = apply_filters( 'checkers_checkers_links', $checkers_links );
-    }
-    // Filter array of website-checking services.
-    if ( ! has_filter( 'checkers_checkers_sites' ) ) {
-        $checkers_sites = apply_filters( 'checkers_checkers_sites', $checkers_sites );
-    }
-
-    $sites = $sites_array;
-    $items = '';
-    foreach ( $sites_array as $site ) {
-        // Build HTML list of links.
-        $items += '<li class="dashicons-before dashicons-' + esc_attr( $site[3] ) + '">';
-
-        // Add link for results if param passed.
-        if ( $url_to_check ) {
-            if ( $hostname ) { // For checker sites: domain name only.
-                $url_to_use = parse_url( get_site_url(), PHP_URL_HOST);
-            } else if ( $sitelink ) { // Use site link only (not user URL).
-                $url_to_use = '';
-            } else { // For checking webpages, some checkers need encoded URL.
-                $url_to_use = ( $site[2] ) ? urlencode( $url ) : $url;
-            }
-            $items .= '<a href="' . esc_url( $sites[1] . $url_to_use ) . '" target="_blank">';
-            $items .= esc_textarea( $site[0] ) . '</a></li>';
-        }  else // No URL to check provided.
-        $items .= $site[0] . '</li>';
-    }
-
-    return $items;
-}
 
 /**
  * Build HTML list of page-checking services (without links).
@@ -383,6 +390,7 @@ function checkers_lists( $sites_array, $url_to_check = '', $hostname = 0, $sitel
  */
 function checkers_list_page_services() {
     global $checkers_pages;
+
     $links = '<ol>';
     foreach ( $checkers_pages as $site ) {
         $links .= '<li class="dashicons-before dashicons-' . esc_attr( $site[3] ) . '">';
