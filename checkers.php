@@ -187,7 +187,8 @@ function checkers_settings_display() {
     if ( isset( $_POST['found_post_id'] ) ) {
         $url_to_check = get_permalink( $_POST['found_post_id'] );
     // Or get (and validate) user-entered URL from URL field.
-    } elseif ( isset( $_POST['checkers_input_url'] ) ) {
+    } elseif ( isset( $_POST['checkers_input_url'] )
+        && filter_var( $_POST['checkers_input_url'], FILTER_VALIDATE_URL) ) {
         $url_to_check = $_POST['checkers_input_url'];
     } else {
         $url_to_check = '';
