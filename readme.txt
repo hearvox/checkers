@@ -12,7 +12,7 @@ Requires PHP: 5.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Test your webpages with online page checkers, for performance accessibility, and social shares.
+Test your webpages with online page checkers, for performance, accessibility, and social shares.
 
 == Description ==
 
@@ -77,11 +77,15 @@ Another [Storytelling Tool](https://www.rjionline.org/stories/series/storytellin
 
 ==  Changelog ==
 
+= 0.1.1 =
+* Adds filters.
+* Combine list functions.
+
 = 0.1.0 =
 * Beta version.
 
 == Upgrade Notice ==
 
 = 0.0.9 =
-Public release version is 0.1.0.
+Public release version is 0.1.1.
 
