@@ -342,7 +342,7 @@ function checkers_settings_display() {
         <hr>
 
         <h2 id="checkers-page"><?php _e('Page checkers', 'checkers' ); ?></h2>
-        <p><?php _e( 'Check a webpage for <span class="dashicons-before dashicons-performance">performance</span>, <span class="dashicons-before dashicons-universal-access-alt">accessibility</span>, and <span class="dashicons-before dashicons-share">shares</span>.', 'checkers' ); ?></p>
+        <p><?php _e( 'Check a webpage for <span class="dashicons-before dashicons-performance">performance</span>, <span class="dashicons-before dashicons-share">shares</span>, and <span class="dashicons-before dashicons-universal-access-alt">accessibility</span>.', 'checkers' ); ?></p>
 
         <figure id="checkers-results" class="checkers-results<?php echo $style ?>">
             <?php if ( $url_to_check ) { // If webpage submitted via form. ?>
