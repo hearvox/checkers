@@ -28,31 +28,7 @@ li.dashicons-performance ~ .dashicons-performance,
 li.dashicons-share ~ .dashicons-share,
 li.dashicons-universal-access-alt ~ .dashicons-universal-access-alt { margin-top: 0; }
 
-.test-url {
+.check-url {
     font-style: italic;
     white-space: nowrap;
-}
-
-/*
- * jQuery simple and accessible hide-show system (collapsible regions), using ARIA
- * @version v1.8.0
- * Website: https://a11y.nicolas-hoffmann.net/hide-show/
- */
-.js-to_expand[aria-hidden=true],
-.js-to_expand[data-hidden=true] {
-  display: none;
-}
-/* optionnal or prefix with .js with modernizr */
-.expandmore__button[aria-expanded=false] > .expandmore__symbol:before,
-.expandmore__button[data-expanded=false] > .expandmore__symbol:before {
-  content : '+ ';
-}
-.expandmore__button[aria-expanded=true] > .expandmore__symbol:before,
-.expandmore__button[data-expanded=true] > .expandmore__symbol:before {
-  content : '− ';
-}
-.expandmore__button {
-  background: none;
-  font-size: inherit;
-  color: inherit;
 }

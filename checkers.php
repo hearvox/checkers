@@ -184,6 +184,7 @@ function checkers_services( $checkers_list = 'checkers_pages' ) {
      * array({Service-name}, {Service-URL-prefix}, {domain-only = 0}, {dashicon})
      * Boolean (domain-only) is whether service requires domain name only (not full URL).
      */
+    $checkers_sites =
     $checkers_sites = array(
         array('SimilarWeb', 'https://www.similarweb.com/website/', 0, 'chart-line'),
         array('Alexa', 'https://www.alexa.com/siteinfo/', 0, 'chart-line'),
@@ -204,7 +205,6 @@ function checkers_services( $checkers_list = 'checkers_pages' ) {
     $checkers_sites = apply_filters( 'checkers_sites', $checkers_sites );
 
     return $$checkers_list;
-
 }
 
 /*
@@ -327,9 +327,9 @@ function checkers_settings_display() {
         <h1>Checkers: <?php _e('Links to Results', 'checkers' ); ?></h1>
 
         <form name="checkers-posts-form" id="checkers-posts-form" method="post" action="">
+            <?php wp_nonce_field( 'checkers_submit_url', 'checkers_check' ); ?>
             <fieldset>
                 <legend><?php _e('Submit an URL to get results at online webpage checking services.', 'checkers') ?></legend>
-                <?php wp_nonce_field('checkers_nonce'); ?>
                 <?php find_posts_div(); // WP media-attach search-posts form ?>
 
                 <p><label for="url"><?php _e('Enter URL (include https or http) or ', 'checkers') ?><a href="#checkers-url" onclick="findPosts.open( 'action','find_posts' ); return false;" id="find-posts-link" class="hide-if-no-js aria-button-if-js" aria-label="Open search-posts list form" role="button"><?php _e('Search Posts:', 'checkers') ?></a></label><br>
@@ -339,26 +339,24 @@ function checkers_settings_display() {
             </fieldset>
         </form>
 
-        <hr>
+      <hr>
 
         <h2 id="checkers-page"><?php _e('Page checkers', 'checkers' ); ?></h2>
         <p><?php _e( 'Check a webpage for <span class="dashicons-before dashicons-performance">performance</span>, <span class="dashicons-before dashicons-share">shares</span>, and <span class="dashicons-before dashicons-universal-access-alt">accessibility</span>.', 'checkers' ); ?></p>
 
         <figure id="checkers-results" class="checkers-results<?php echo $style ?>">
-            <?php if ( $url_to_check ) { // If webpage submitted via form. ?>
-            <p><?php _e( 'Webpage:', 'checkers' ); ?> <span class="test-url"><?php echo $url_to_check; ?></span><br>
+            <?php if ( $url_to_check && check_admin_referer( 'checkers_submit_url', 'checkers_check' ) ) { // If webpage submitted via form. ?>
+            <p><?php _e( 'Webpage:', 'checkers' ); ?> <span class="check-url"><?php echo $url_to_check; ?></span><br>
             <?php _e( 'Get your results (opens in a new window) at:', 'checkers' ); ?></p>
             <?php echo checkers_lists( $checkers_pages, $url_to_check  ); ?>
-            <!-- Hidden by default; displayed by button click. -->
-            <p class="js-expandmore"><?php _e( 'More checkers', 'checkers' ); ?></p>
-            <aside id="checkers-more-links" class="js-to_expand">
-            <section>
-            <?php echo checkers_lists( $checkers_more, $url_to_check  ); ?>
-            <p class="description"><?php _e('* Service limits the number of free daily checks.', 'checkers') ?></p>
-            <p><?php _e( 'These services require you enter an URL at their site. Your URL is now in your clipboard, ready to paste into their field:', 'checkers' ); ?></p>
-            <?php echo checkers_lists( $checkers_links, $url_to_check, 0, 1 ); ?>
-            </aside><!-- #checkers-more-links -->
-
+            <button id="checks-more" class="button" aria-controls="checks-more-list" aria-expanded="false"><span id="checks-more-state">+</span> More checkers</button>
+            <!-- Hidden by default; displayed by above button click. -->
+            <aside id="checks-more-list" style="display: none" aria-hidden="true">
+                <?php echo checkers_lists( $checkers_more, $url_to_check  ); ?>
+                <p class="description"><?php _e('* Service limits the number of free daily checks.', 'checkers') ?></p>
+                <p><?php _e( 'These services require you enter an URL at their site. Your URL is now in your clipboard, ready to paste into their field:', 'checkers' ); ?></p>
+                <?php echo checkers_lists( $checkers_links, $url_to_check, 0, 1 ); ?>
+            </aside><!-- #checks-more -->
             <?php } else { ?>
             <?php echo checkers_lists( $checkers_pages ); ?>
             <?php } ?>
@@ -369,17 +367,37 @@ function checkers_settings_display() {
         <h2 id="checkers-site"><?php _e('Site checkers', 'checkers' ); ?></h2>
         <p><?php _e( 'Check this website for <span class="dashicons-before dashicons-chart-line">statistics</span>, <span class="dashicons-before dashicons-lock">security</span>, and <span class="dashicons-before dashicons-editor-code">technologies</span>.', 'checkers' ); ?></p>
         <figure id="checkers-results-sites" class="checkers-results card">
-            <p><?php _e( 'Website:', 'checkers' ); ?> <span class="test-url"><?php echo parse_url( get_site_url(), PHP_URL_HOST); ?></span><br>
+            <p><?php _e( 'Website:', 'checkers' ); ?> <span class="check-url"><?php echo parse_url( get_site_url(), PHP_URL_HOST); ?></span><br>
             <?php _e( 'Get your results (opens in a new window) at:', 'checkers' ); ?></p>
             <?php echo checkers_lists( $checkers_sites, 1, 1 ); ?>
         </figure>
 
     </div><!-- .wrap -->
+    <script>
+        jQuery( function($) {
+            // Accordian.
+            $( "#checks-more" ).click(function() {
+                $( "#checks-more-list" ).toggle( "fast", function() {
+                    // Animation complete.
+                    state  = ( $( "#checks-more-list" ).is( ':visible' ) ) ? 1 : 0;
+                    text   = ( state ) ? '-' : '+';
+                    expand = ( state ) ? 'true' : 'false';
+                    hidden = ( state ) ? 'false' : 'true';
+
+                    $( "#checks-more-state" ).text( text );
+                    $( "#checks-more" ).attr( 'aria-expanded', expand );
+                    $( "#checks-more-list" ).attr( 'aria-hidden', hidden );
+                });
+            });
+        } );
+    </script>
     <?php
 }
 
 /**
  * Load scripts and styles on admin settings page.
+ *
+ * The Posts search popup relies on these scripts.
  *
  * @since   0.1.0
  *
@@ -390,7 +408,7 @@ function checkers_load_admin_scripts( $hook ) {
 
     if ( is_admin() && $checkers_options_page == $hook ) { // Load only on this screen.
         // Files for the search-post modal form, called by find_posts_div().
-        wp_enqueue_style('thickbox');
+        wp_enqueue_style( 'thickbox' );
         wp_enqueue_script( 'thickbox' );
         wp_enqueue_script( 'media' );
         wp_enqueue_script( 'wp-ajax-response' );
@@ -410,7 +428,6 @@ function checkers_load_admin_scripts( $hook ) {
     			'checkers_nonce' => wp_create_nonce('checkers-nonce'),
     		)
     	);
-
     }
 }
 add_action('admin_enqueue_scripts', 'checkers_load_admin_scripts');
