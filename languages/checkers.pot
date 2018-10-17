@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Checkers 0.1.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/checkers\n"
-"POT-Creation-Date: 2018-02-18 16:29:37+00:00\n"
+"POT-Creation-Date: 2018-10-17 14:03:04+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,11 +13,11 @@ msgstr ""
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Generator: grunt-wp-i18n1.0.1\n"
 
-#: checkers.php:64
+#: checkers.php:65
 msgid "Settings"
 msgstr ""
 
-#: checkers.php:159
+#: checkers.php:284
 msgid "Checkers: Settings"
 msgstr ""
 
@@ -25,95 +25,61 @@ msgstr ""
 msgid "Checkers"
 msgstr ""
 
-#: checkers.php:189
+#: checkers.php:327
 msgid "Links to Results"
 msgstr ""
 
-#: checkers.php:190
-msgid "Get results from online webpage and website checkers."
+#: checkers.php:332
+msgid "Submit an URL to get results at online webpage checking services."
 msgstr ""
 
-#: checkers.php:193
-msgid "Page checkers"
+#: checkers.php:335
+msgid "Enter URL (include https or http) or "
 msgstr ""
 
-#: checkers.php:200
-msgid "Select a post"
+#: checkers.php:335
+msgid "Search Posts:"
 msgstr ""
 
-#: checkers.php:201
-msgid "Close media attachment panel"
-msgstr ""
-
-#: checkers.php:210 checkers.php:213
-msgid "Search"
-msgstr ""
-
-#: checkers.php:219
-msgid "Select"
-msgstr ""
-
-#: checkers.php:224
-msgid ""
-"Check a webpage for <span class=\"dashicons-before "
-"dashicons-performance\">performance</span>, <span class=\"dashicons-before "
-"dashicons-universal-access-alt\">accessibility</span>, and <span "
-"class=\"dashicons-before dashicons-share\">shares</span>."
-msgstr ""
-
-#: checkers.php:226
-msgid "1. Enter URL (or "
-msgstr ""
-
-#: checkers.php:226
-msgid "Search Posts"
-msgstr ""
-
-#: checkers.php:226
-msgid "):"
-msgstr ""
-
-#: checkers.php:230
-msgid "2."
-msgstr ""
-
-#: checkers.php:230
+#: checkers.php:338
 msgid "Submit URL"
 msgstr ""
 
-#: checkers.php:236
+#: checkers.php:344
+msgid "Page checkers"
+msgstr ""
+
+#: checkers.php:345
 msgid ""
-"These links open a new browser window which starts processing your results "
-"from:"
+"Check a webpage for <span class=\"dashicons-before "
+"dashicons-performance\">performance</span>, <span class=\"dashicons-before "
+"dashicons-share\">shares</span>, and <span class=\"dashicons-before "
+"dashicons-universal-access-alt\">accessibility</span>."
 msgstr ""
 
-#: checkers.php:238
-msgid "More checkers&hellip;"
+#: checkers.php:349
+msgid "Webpage:"
 msgstr ""
 
-#: checkers.php:242
-msgid "More results links:"
+#: checkers.php:350 checkers.php:371
+msgid "Get your results (opens in a new window) at:"
 msgstr ""
 
-#: checkers.php:244
+#: checkers.php:356
+msgid "* Service limits the number of free daily checks."
+msgstr ""
+
+#: checkers.php:357
 msgid ""
 "These services require you enter an URL at their site. Your URL is now in "
 "your clipboard, ready to paste into their field:"
 msgstr ""
 
-#: checkers.php:246
-msgid "* Service limits the number of free daily checks."
-msgstr ""
-
-#: checkers.php:251
-msgid "Submit an URL to get results from these online webpage checking services:"
-msgstr ""
-
-#: checkers.php:259
+#: checkers.php:367
 msgid "Site checkers"
 msgstr ""
 
-#: checkers.php:260
+#: checkers.php:368
 msgid ""
 "Check this website for <span class=\"dashicons-before "
 "dashicons-chart-line\">statistics</span>, <span class=\"dashicons-before "
@@ -121,8 +87,19 @@ msgid ""
 "dashicons-editor-code\">technologies</span>."
 msgstr ""
 
-#: checkers.php:296
-msgid "Enter a valid URL."
+#: checkers.php:370
+msgid "Website:"
+msgstr ""
+
+#: checkers.php:376
+msgid ""
+"<em>Checkers</em> is another <a "
+"href=\"https://www.rjionline.org/stories/series/storytelling-tools/\">"
+"Storytelling Tool</a>  from the Reynolds Journalism Institute.."
+msgstr ""
+
+#: checkers.php:456
+msgid "Select a post"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
@@ -131,7 +108,7 @@ msgstr ""
 
 #. Description of the plugin/theme
 msgid ""
-"Test your webpages with online page checkers, for performance "
+"Test your webpages with online page checkers, for performance, "
 "accessibility, and social shares."
 msgstr ""
 

@@ -1,17 +1,18 @@
 # Checkers #
 **Contributors:** [hearvox](https://profiles.wordpress.org/hearvox)  
-**Donate link:** https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=3546QM2HAEKXW  
+**Donate link:** https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VV9XJMN68B9UC  
 **Tags:** social, performance, accessibility  
-**Author URI:** http://hearingvoices.com/  
-**Plugin URI:** http://hearingvoices.com/tools/checkers/  
+**Author URI:** https://hearingvoices.com/  
+**Plugin URI:** https://hearingvoices.com/tools/checkers/  
 **GitHub Plugin URI:** https://github.com/hearvox/checkers  
-**Requires at least:** 4.0  
-**Tested up to:** 4.9.1  
-**Stable tag:** 0.1.1  
+**Requires at least:** 4.7  
+**Tested up to:** 4.9.9  
+**Stable tag:** 0.2  
+**Requires PHP:** 5.2.4  
 **License:** GPLv2 or later  
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html  
 
-Test your webpages with online page checkers, for performance accessibility, and social shares.
+Test your webpages with online page checkers, for performance, accessibility, and social shares.
 
 ## Description ##
 
@@ -41,11 +42,11 @@ Other checking services included: Google's Mobile-Friendly and Structured Data t
 
 ##  Settings screen ##
 
-Use the Checkers settings screen to get links to process resutls with page checkers. Enter a URL manually or search your posts to get its URL.
+Submit an URL (or use the Search Posts screen) to get links to page and site checking services. Follow the links to begin processing your results.
 
 ##  Installation ##
 
-To install the use the Postscript plugin:
+To install and use the Checkers plugin:
 
 1. Upload the `checkers` directory and content to the `/wp-content/plugins/` directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
@@ -68,6 +69,9 @@ To install the use the Postscript plugin:
 
 ## Frequently Asked Questions ##
 
+### How do I add or remove checking services? ###
+The <code>checkers_lists()</code> function has filters for all the services lists. See the main plugin file for <code>my_checkers_pages()</code>, an  example of how to use these filters.
+
 ### How can I contribute to Checkers? ###
 Checkers is now on [GitHub](https://github.com/hearvox/checkers). Pull Requests welcome.
 
@@ -77,9 +81,13 @@ This plugin is internationalized (default: English). Please contribute a transla
 The WordPress.org Polyglots Team maintains a comprehensive [Translator’s Handbook](https://make.wordpress.org/polyglots/handbook/). All text strings in this plugin are localized, following the guidelines of the Wordpress.org Plugin Handbook's [Internationalization section](https://developer.wordpress.org/plugins/internationalization/).
 
 ### Credits ###
-This is part of a [Reynolds Journalism Institute](https://www.rjionline.org) fellowship and an article for [Current](https://current.org/author/bgolding/) public media news.
+Another [Storytelling Tool](https://www.rjionline.org/stories/series/storytelling-tools) from the Reynolds Journalism Institute.
 
 ##  Changelog ##
+
+### 0.1.1 ###
+* Adds filters.
+* Combine list functions.
 
 ### 0.1.0 ###
 * Beta version.
@@ -87,5 +95,5 @@ This is part of a [Reynolds Journalism Institute](https://www.rjionline.org) fel
 ## Upgrade Notice ##
 
 ### 0.0.9 ###
-Public release version is 0.1.0.
+Public release version is 0.1.1.
 

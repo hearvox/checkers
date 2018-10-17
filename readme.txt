@@ -2,12 +2,12 @@
 Contributors: hearvox
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=VV9XJMN68B9UC
 Tags: social, performance, accessibility
-Author URI: http://hearingvoices.com/
-Plugin URI: http://hearingvoices.com/tools/checkers/
+Author URI: https://hearingvoices.com/
+Plugin URI: https://hearingvoices.com/tools/checkers/
 GitHub Plugin URI: https://github.com/hearvox/checkers
 Requires at least: 4.7
-Tested up to: 4.9.4
-Stable tag: 0.1.1
+Tested up to: 4.9.9
+Stable tag: 0.2
 Requires PHP: 5.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html

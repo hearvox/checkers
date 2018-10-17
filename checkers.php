@@ -372,6 +372,9 @@ function checkers_settings_display() {
             <?php echo checkers_lists( $checkers_sites, 1, 1 ); ?>
         </figure>
 
+        <hr>
+        <p class="clear wp-ui-text-icon"><?php _e( '<em>Checkers</em> is another <a href="https://www.rjionline.org/stories/series/storytelling-tools/">Storytelling Tool</a>  from the Reynolds Journalism Institute..', 'checkers' ); ?></p>
+
     </div><!-- .wrap -->
     <script>
         jQuery( function($) {
