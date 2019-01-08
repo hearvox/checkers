@@ -210,15 +210,16 @@ function checkers_services( $checkers_list = 'checkers_pages' ) {
 /*
 // Example of how to filter service lists:
 function my_checkers_pages( $checkers_pages ) {
-    // See checkers_services() for data in each array element.
+    // See checkers_services() for data in each array element. Icons:
+    // https://developer.wordpress.org/resource/dashicons/#calendar-alt
 
     // Unset by array item index number (starts with 0).
     unset( $checkers_pages[1] ); // Remove 2nd item.
 
-    // Add new service to end of the list.
-    $checkers_pages[] = array('Example A11y Checker', 'https://api.example.com/a11y/?uri=', 1, 'a11y');
     // Add new service as the 5th item in the list.
     $checkers_pages[4] = array('Example Share Checker', 'https://api.example.com/share/?uri=', 1, 'share');
+    // Add new service to end of the list.
+    $checkers_pages[] = array('Example A11y Checker', 'https://api.example.com/a11y/?uri=', 1, 'universal-access-alt');
 
     ksort( $checkers_pages );
 
@@ -247,6 +248,7 @@ function checkers_lists( $sites_array, $url_to_check = '', $hostname = 0, $sitel
     $items = '<ol>';
     foreach ( $sites_array as $site ) {
         // Build HTML list of links.
+        // $icon = ( $site[3] ) ? esc_attr( $site[3] ) : 'admin-links'; // Default icon.
         $items .= '<li class="dashicons-before dashicons-' . esc_attr( $site[3] ) . '">';
 
         // Add link for results if param passed.
@@ -290,6 +292,9 @@ function checkers_settings_menu() {
 }
 add_action('admin_menu', 'checkers_settings_menu');
 
+$is_api_defaults = isset( $_GET['api-defaults'] );
+$is_api_adds     = isset( $_GET['api-adds'] );
+
 /**
  * Renders settings menu page.
  *
@@ -301,6 +306,7 @@ add_action('admin_menu', 'checkers_settings_menu');
  */
 function checkers_settings_display() {
     global $checkers_options_page; // Hook for this screen.
+    global $is_api_defaults, $is_api_adds;
     // global $checkers_pages, $checkers_more, $checkers_links, $checkers_sites;
 
     $checkers_pages = checkers_services( 'checkers_pages' );
@@ -322,9 +328,30 @@ function checkers_settings_display() {
 
     $style = ( $url_to_check ) ? ' card': '';
 
+
+/*
+
+
+
+*/
+
     ?>
     <div class="wrap">
         <h1>Checkers: <?php _e('Links to Results', 'checkers' ); ?></h1>
+
+        <h2 class="nav-tab-wrapper wp-clearfix" style="margin: 1rem 0;">
+            <a href="options-general.php?page=checkers" class="nav-tab"><?php _e( 'API Links' ); ?></a>
+            <a href="options-general.php?page=checkers&api-defaults" class="nav-tab<?php if ( ! $is_api_defaults ) { echo ' nav-tab-active'; } ?>"><?php _e( 'Set Defaults' ); ?></a>
+            <a href="options-general.php?page=checkers&api-adds" class="nav-tab<?php if ( $is_api_adds ) { echo ' nav-tab-active'; } ?>"><?php _e( 'Add APIs' ); ?></a>
+        </h2>
+
+        <?php if ( $is_api_defaults ) : ?>
+            <h3>$is_api_defaults</h3>
+        <?php endif; ?>
+
+        <?php if ( $is_api_adds ) : ?>
+            <h3>$is_api_adds</h3>
+        <?php endif; ?>
 
         <form name="checkers-posts-form" id="checkers-posts-form" method="post" action="">
             <?php wp_nonce_field( 'checkers_submit_url', 'checkers_check' ); ?>
@@ -346,6 +373,7 @@ function checkers_settings_display() {
 
         <figure id="checkers-results" class="checkers-results<?php echo $style ?>">
             <?php if ( $url_to_check && check_admin_referer( 'checkers_submit_url', 'checkers_check' ) ) { // If webpage submitted via form. ?>
+            <img class="checkers-screenshot" src="https://s.wordpress.com/mshots/v1/<?php echo $url_to_check ?>?w=400&h=300" alt="Website screenshot" width="400" height="300" />
             <p><?php _e( 'Webpage:', 'checkers' ); ?> <span class="check-url"><?php echo $url_to_check; ?></span><br>
             <?php _e( 'Get your results (opens in a new window) at:', 'checkers' ); ?></p>
             <?php echo checkers_lists( $checkers_pages, $url_to_check  ); ?>
@@ -367,6 +395,7 @@ function checkers_settings_display() {
         <h2 id="checkers-site"><?php _e('Site checkers', 'checkers' ); ?></h2>
         <p><?php _e( 'Check this website for <span class="dashicons-before dashicons-chart-line">statistics</span>, <span class="dashicons-before dashicons-lock">security</span>, and <span class="dashicons-before dashicons-editor-code">technologies</span>.', 'checkers' ); ?></p>
         <figure id="checkers-results-sites" class="checkers-results card">
+            <img class="checkers-screenshot" src="https://s.wordpress.com/mshots/v1/<?php echo $url_to_check ?>?w=400&h=300" alt="Website screenshot" width="400" height="300" />
             <p><?php _e( 'Website:', 'checkers' ); ?> <span class="check-url"><?php echo parse_url( get_site_url(), PHP_URL_HOST); ?></span><br>
             <?php _e( 'Get your results (opens in a new window) at:', 'checkers' ); ?></p>
             <?php echo checkers_lists( $checkers_sites, 1, 1 ); ?>
